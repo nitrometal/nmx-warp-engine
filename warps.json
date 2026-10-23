@@ -1,9 +1,8 @@
 [
-  {"priv": "6I4M1eiUauX5nm7XRvN6pf7UlzgQGBPXmYzBbU9ZWms=", "v4": "172.16.0.2", "v6": "2606:4700:110:81dd:31a2:80d8:d5fa:88fc", "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="},
-  {"priv": "gOFv/j05JcJyREBC23Lc1y4md6Qxo4I/7e4OLr+iImg=", "v4": "172.16.0.2", "v6": "2606:4700:110:8b3c:80c8:3be5:99fa:31f4", "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="},
-  {"priv": "yGWeTsmhMJHsgfpxG5fTgOAhJ1DxIckd2ofI4M1mclM=", "v4": "172.16.0.2", "v6": "2606:4700:110:8c71:8960:e0b5:50b7:5a4b", "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="},
-  {"priv": "uFpNsGImy5L8ib/ACNhlBZJZYSjq2hFecD8SWs99+l8=", "v4": "172.16.0.2", "v6": "2606:4700:110:8ce1:4875:2743:1ce:6523", "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="},
-  {"priv": "WLVAky2SGErOROglscgr8fusDbS+mtl0yW4A6HK0Ulc=", "v4": "172.16.0.2", "v6": "2606:4700:110:8fc3:84:6db2:a70:5c42", "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="},
-  {"priv": "4C4irrLJv/Wm0NPd2aLmOIZuP8he7Nk5nbm6Hrp87kQ=", "v4": "172.16.0.2", "v6": "2606:4700:110:8a5e:d2be:9d92:f11a:504a", "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="},
-  {"priv": "gP2l9WyT1dnHYpTOP16ZrNlD/6Q4IE/Un0GXUWlCll4=", "v4": "172.16.0.2", "v6": "2606:4700:110:8653:8efb:1d92:e6ea:a932", "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="}
+  {"priv": "sN/1OdKPJo66rgAN5PUuX9V4cZCiv+RaxsMRcHcyYGI=", "v4": "172.16.0.2", "v6": "2606:4700:110:8df8:127a:5cb4:5c72:7e28", "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="},
+  {"priv": "ADtgF50vM5GfpSI7czLMsjBuFO70IDuRNrAPZpsme20=", "v4": "172.16.0.2", "v6": "2606:4700:110:8b5d:d9c9:ae8d:cc8c:c16f", "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="},
+  {"priv": "kNkcKKwpcR9x8GYVV/iCpWqsO5bCwcCYXoYoP2bbW14=", "v4": "172.16.0.2", "v6": "2606:4700:110:8e11:c353:2213:5b5f:e391", "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="},
+  {"priv": "YNYt1CesCSTopGO08MB9oG1x+l5711W/Wse7nsaqA3M=", "v4": "172.16.0.2", "v6": "2606:4700:110:8cfd:9c43:6c58:e969:2827", "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="},
+  {"priv": "uGnq7JmFRBgXflvCgxydE2xFiCdpVM3gO0WNMUkx01c=", "v4": "172.16.0.2", "v6": "2606:4700:110:82f0:d79:8c14:5a74:f3b5", "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="},
+  {"priv": "oLJdGSzkISRCT3gzKzSLlotjvaKDboPAJScaujE7q3E=", "v4": "172.16.0.2", "v6": "2606:4700:110:8134:5bad:4d59:a7e9:ce96", "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="}
 ]
