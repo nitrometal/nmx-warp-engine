@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -12,9 +12,23 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { key } = req.body || {};
+    
+    let body = req.body;
+    if (typeof body === 'string') {
+      try {
+        body = JSON.parse(body);
+      } catch (e) {
+        body = {};
+      }
+    }
+
+    const key = body ? body.key : null;
     if (!key) {
-      return res.status(400).json({ error: 'Missing public key' });
+      return res.status(400).json({ 
+        success: false, 
+        error: 'Missing public key',
+        receivedBodyType: typeof req.body 
+      });
     }
 
     const isoDate = new Date().toISOString();
@@ -36,8 +50,12 @@ export default async function handler(req, res) {
     });
 
     const regJson = await regResp.json();
-    if (!regJson.result || !regJson.result.token) {
-      return res.status(500).json({ error: 'Registration failed', details: regJson });
+    if (!regJson  !regJson.result  !regJson.result.token) {
+      return res.status(500).json({ 
+        success: false, 
+        error: 'Cloudflare /reg failed', 
+        details: regJson 
+      });
     }
 
     const { id, token } = regJson.result;
@@ -67,6 +85,9 @@ export default async function handler(req, res) {
     });
 
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ 
+      success: false, 
+      error: err.message 
+    });
   }
-}
+};
