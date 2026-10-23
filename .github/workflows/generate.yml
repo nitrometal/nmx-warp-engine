@@ -1,0 +1,64 @@
+name: Generate WARP Pool
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install tools
+        run: sudo apt-get update && sudo apt-get install -y wireguard-tools jq curl
+
+      - name: Generate fresh WARP profiles
+        run: |
+          cat << 'EOF' > generate_pool.sh
+          #!/bin/bash
+          echo "[" > warps.json
+          for i in {1..15}; do
+            priv=$(wg genkey)
+            pub=$(echo "$priv" | wg pubkey)
+            iso=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+            reg=$(curl -s -H 'User-Agent: okhttp/3.12.1' -H 'Content-Type: application/json' -X POST \
+              "https://api.cloudflareclient.com/v0i1909051800/reg" \
+              -d "{\"install_id\":\"\",\"tos\":\"$iso\",\"key\":\"$pub\",\"fcm_token\":\"\",\"type\":\"ios\",\"locale\":\"en_US\"}")
+
+            id=$(echo "$reg" | jq -r '.result.id')
+            token=$(echo "$reg" | jq -r '.result.token')
+
+            if [ "$id" != "null" ] && [ -n "$id" ]; then
+              patch=$(curl -s -H 'User-Agent: okhttp/3.12.1' -H 'Content-Type: application/json' \
+                -H "Authorization: Bearer $token" -X PATCH \
+                "https://api.cloudflareclient.com/v0i1909051800/reg/$id" \
+                -d '{"warp_enabled":true}')
+
+              v4=$(echo "$patch" | jq -r '.result.config.interface.addresses.v4 // "172.16.0.2"')
+              v6=$(echo "$patch" | jq -r '.result.config.interface.addresses.v6 // ""')
+              peer=$(echo "$patch" | jq -r '.result.config.peers[0].public_key // "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="')
+
+              echo "  {\"priv\": \"$priv\", \"v4\": \"$v4\", \"v6\": \"$v6\", \"peer\": \"$peer\"}," >> warps.json
+            fi
+            sleep 1
+          done
+          
+          sed -i '$ s/,$//' warps.json
+          echo "]" >> warps.json
+          EOF
+          chmod +x generate_pool.sh
+          ./generate_pool.sh
+
+      - name: Commit and push generated pool
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add warps.json
+          git commit -m "Auto-update fresh WARP pool" || exit 0
+          git push
