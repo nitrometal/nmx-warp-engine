@@ -21,8 +21,10 @@ jobs:
         run: |
           cat << 'EOF' > generate_pool.sh
           #!/bin/bash
-          if [ ! -f warps.json ] || [ ! -s warps.json ]; then
-            echo "[]" > warps.json
+          TARGET_FILE="nmx_speed.cloud.json"
+
+          if [ ! -f "$TARGET_FILE" ] || [ ! -s "$TARGET_FILE" ]; then
+            echo "[]" > "$TARGET_FILE"
           fi
 
           NEW_ACCOUNTS="[]"
@@ -61,8 +63,8 @@ jobs:
             sleep 1
           done
 
-          jq -s '.[0] + .[1] | unique_by(.priv) | .[-300:]' warps.json <(echo "$NEW_ACCOUNTS") > warps_tmp.json
-          mv warps_tmp.json warps.json
+          jq -s '.[0] + .[1] | unique_by(.priv) | .[-300:]' "$TARGET_FILE" <(echo "$NEW_ACCOUNTS") > tmp_speed.json
+          mv tmp_speed.json "$TARGET_FILE"
           EOF
           chmod +x generate_pool.sh
           ./generate_pool.sh
@@ -71,6 +73,6 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add warps.json
-          git commit -m "Accumulate fresh WARP pool [skip ci]" || exit 0
+          git add nmx_speed.cloud.json
+          git commit -m "Accumulate fresh Speed Cloud pool [skip ci]" || exit 0
           git push
