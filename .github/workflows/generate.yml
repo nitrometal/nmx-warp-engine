@@ -17,11 +17,16 @@ jobs:
       - name: Install tools
         run: sudo apt-get update && sudo apt-get install -y wireguard-tools jq curl
 
-      - name: Generate fresh WARP profiles
+      - name: Accumulate fresh WARP profiles
         run: |
           cat << 'EOF' > generate_pool.sh
           #!/bin/bash
-          echo "[" > warps.json
+          if [ ! -f warps.json ] || [ ! -s warps.json ]; then
+            echo "[]" > warps.json
+          fi
+
+          NEW_ACCOUNTS="[]"
+
           for i in {1..15}; do
             priv=$(wg genkey)
             pub=$(echo "$priv" | wg pubkey)
@@ -31,10 +36,10 @@ jobs:
               "https://api.cloudflareclient.com/v0i1909051800/reg" \
               -d "{\"install_id\":\"\",\"tos\":\"$iso\",\"key\":\"$pub\",\"fcm_token\":\"\",\"type\":\"ios\",\"locale\":\"en_US\"}")
 
-            id=$(echo "$reg" | jq -r '.result.id')
-            token=$(echo "$reg" | jq -r '.result.token')
+            id=$(echo "$reg" | jq -r '.result.id // empty')
+            token=$(echo "$reg" | jq -r '.result.token // empty')
 
-            if [ "$id" != "null" ] && [ -n "$id" ]; then
+            if [ -n "$id" ] && [ -n "$token" ]; then
               patch=$(curl -s -H 'User-Agent: okhttp/3.12.1' -H 'Content-Type: application/json' \
                 -H "Authorization: Bearer $token" -X PATCH \
                 "https://api.cloudflareclient.com/v0i1909051800/reg/$id" \
@@ -44,21 +49,28 @@ jobs:
               v6=$(echo "$patch" | jq -r '.result.config.interface.addresses.v6 // ""')
               peer=$(echo "$patch" | jq -r '.result.config.peers[0].public_key // "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="')
 
-              echo "  {\"priv\": \"$priv\", \"v4\": \"$v4\", \"v6\": \"$v6\", \"peer\": \"$peer\"}," >> warps.json
+              NEW_OBJ=$(jq -n \
+                --arg pr "$priv" \
+                --arg v4 "$v4" \
+                --arg v6 "$v6" \
+                --arg pp "$peer" \
+                '{priv: $pr, v4: $v4, v6: $v6, peer: $pp}')
+
+              NEW_ACCOUNTS=$(echo "$NEW_ACCOUNTS" | jq --argjson item "$NEW_OBJ" '. + [$item]')
             fi
             sleep 1
           done
-          
-          sed -i '$ s/,$//' warps.json
-          echo "]" >> warps.json
+
+          jq -s '.[0] + .[1] | unique_by(.priv) | .[-300:]' warps.json <(echo "$NEW_ACCOUNTS") > warps_tmp.json
+          mv warps_tmp.json warps.json
           EOF
           chmod +x generate_pool.sh
           ./generate_pool.sh
 
-      - name: Commit and push generated pool
+      - name: Commit and push accumulated database
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add warps.json
-          git commit -m "Auto-update fresh WARP pool" || exit 0
+          git commit -m "Accumulate fresh WARP pool [skip ci]" || exit 0
           git push
