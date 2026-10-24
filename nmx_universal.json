@@ -1,0 +1,37 @@
+[
+  {
+    "country": "us",
+    "endpoint": "138.199.52.193:51820",
+    "peer": "93rOlHiU4A7ACRTdqButvAjwrccdOgOIHwFMumODvgo="
+  },
+  {
+    "country": "us",
+    "endpoint": "95.173.217.224:51820",
+    "peer": "FSCdkJans13CQtMwHOM4pcch8khR662bTYKdYeO3/zI="
+  },
+  {
+    "country": "nl",
+    "endpoint": "89.39.107.109:51820",
+    "peer": "93rOlHiU4A7ACRTdqButvAjwrccdOgOIHwFMumODvgo="
+  },
+  {
+    "country": "jp",
+    "endpoint": "45.87.213.226:51820",
+    "peer": "BbghXRtbSYBJ2Q/eMu4JV7u8LKiKDfgybk7IJAO7iAU="
+  },
+  {
+    "country": "sg",
+    "endpoint": "149.50.211.139:51820",
+    "peer": "9lzYRM9SNjGGkYjc0FcYCWFO9ZWEFRwHboW6RLeUnBU="
+  },
+  {
+    "country": "ca",
+    "endpoint": "149.88.97.122:51820",
+    "peer": "mS8GfqvUvazXvSYg7VHV7s8eEyU0yyGjJwYgdjHq23A="
+  },
+  {
+    "country": "ro",
+    "endpoint": "146.70.246.98:51820",
+    "peer": "ehwHh3WXBDwFxqTs4Oa8aZZYjOnd3NwjbMArKRwTqzs="
+  }
+]
