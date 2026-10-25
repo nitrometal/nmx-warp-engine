@@ -21,7 +21,7 @@ jobs:
         run: |
           cat << 'EOF' > generate_pool.sh
           #!/bin/bash
-          TARGET_FILE="nmx_speed.cloud.json"
+          TARGET_FILE="nmx.speed.cloud.json"
 
           if [ ! -f "$TARGET_FILE" ] || [ ! -s "$TARGET_FILE" ]; then
             echo "[]" > "$TARGET_FILE"
@@ -73,6 +73,6 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add nmx_speed.cloud.json
+          git add nmx.speed.cloud.json
           git commit -m "Accumulate fresh Speed Cloud pool [skip ci]" || exit 0
           git push
