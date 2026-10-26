@@ -18,6 +18,12 @@
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
   },
   {
+    "priv": "0PiqGIsma3jAYoyM5prBIq2exZcdbOEbNtVOPtHU5ns=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:8898:d53e:e2b2:663d:ad3c",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
     "priv": "2CRCH3+hJuGdXcZRCUMta6Q9EiXCpZKNxmF7eF7n5m8=",
     "v4": "172.16.0.2",
     "v6": "2606:4700:110:8103:a792:fd9d:4bca:c7b2",
@@ -84,6 +90,12 @@
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
   },
   {
+    "priv": "CIKgf3nP/CzIxv6GP0LfGHRES8eNRAJKrWFCgnKbOW4=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:897f:c3fb:cf51:aac:e5f1",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
     "priv": "EC9UOCAux+QkdrxKNCxCLKfkGNVPuadWWXvZMln0KnE=",
     "v4": "172.16.0.2",
     "v6": "2606:4700:110:843a:cef4:d19b:202a:6067",
@@ -120,9 +132,21 @@
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
   },
   {
+    "priv": "KF4K5xizQX1zCyobX52ggYZymXlkkRuk4yJ77owh5Gw=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:8bd3:e804:329:a7aa:92bb",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
     "priv": "KKh4aRlcofNFSRWUi7poiECmoFR4btN/DGSs0FUqzWw=",
     "v4": "172.16.0.2",
     "v6": "2606:4700:110:87d4:a1c0:cfc0:6e5d:18af",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
+    "priv": "KMYNZhjFz1PLUMoc3xvVzf0ryQ/uLDTzFmmnc1texkQ=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:8a7a:4e88:f874:7112:b896",
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
   },
   {
@@ -156,6 +180,12 @@
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
   },
   {
+    "priv": "ULZGWcvWTeMI6s5ITx83B9jSRsQCsDjcR8EAyCRYwFk=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:8892:d8ff:d6dc:c79b:d771",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
     "priv": "aD3i3K+uFeYYoqT8RFOubPSkHDkuXw61l6tJkBQNmEg=",
     "v4": "172.16.0.2",
     "v6": "2606:4700:110:8828:edd6:84e:19e8:2bd2",
@@ -165,6 +195,12 @@
     "priv": "aIqzMcXqCxDerFun7ofFpE558pDQpq74lkrDSTswN1g=",
     "v4": "172.16.0.2",
     "v6": "2606:4700:110:8e59:d505:7efd:c92b:8bd4",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
+    "priv": "eFXPOYxaHYYklE1eEIUdeYXh+QKhQ/FWEhFNHvsvCl4=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:8106:9db3:6b58:ec7b:845d",
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
   },
   {
