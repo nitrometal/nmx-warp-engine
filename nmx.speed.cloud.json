@@ -60,6 +60,12 @@
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
   },
   {
+    "priv": "4Pql5vyRG+BYemgNtUeFengtRz6wemZ1iacrA8QYyH0=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:8cb3:1c38:8fdf:f088:3bd6",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
     "priv": "6BbPBWMU2bwggQ9K46YodHo6MgmVOK+uHBLejgpCxGg=",
     "v4": "172.16.0.2",
     "v6": "2606:4700:110:86cf:c845:5bf3:b5f:eb6f",
@@ -69,6 +75,12 @@
     "priv": "6CJ3fp5HfL05K8c8kg0L6SExuxP+aGDQqTSqfL0wHXo=",
     "v4": "172.16.0.2",
     "v6": "2606:4700:110:8a3a:9657:74a1:e5cb:dce9",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
+    "priv": "6GbTr8ohIyz0nOPEAL/I4koUwyIXD/8STc/RacsZcFI=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:878e:450d:8545:3d42:675f",
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
   },
   {
@@ -159,6 +171,12 @@
     "priv": "KMYNZhjFz1PLUMoc3xvVzf0ryQ/uLDTzFmmnc1texkQ=",
     "v4": "172.16.0.2",
     "v6": "2606:4700:110:8a7a:4e88:f874:7112:b896",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
+    "priv": "MCPrqRoYj3CPNYjHYLn30QG1+vtBDKLRrB7IjBcJ12k=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:87d2:caf7:809:120f:fd0",
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
   },
   {
@@ -258,9 +276,21 @@
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
   },
   {
+    "priv": "gJzQ/4K5+TPzKjXqazM3103X/gpi5f2g/QzcEYXGjHw=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:840c:9924:9c68:6a9f:8503",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
     "priv": "gOmBshKdtvfyyKyZcnXd81u7Iq9i1gUTIVRrNTnvV1c=",
     "v4": "172.16.0.2",
     "v6": "2606:4700:110:861c:b657:b9f8:3f08:80a2",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
+    "priv": "iI9EFeEB8Gg6UNsUrXuIe3K0AMEY5fHTTTR2fyo52U4=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:8456:d4c3:7bb8:d134:9710",
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
   },
   {
@@ -303,6 +333,12 @@
     "priv": "qOKXkC/1EMFRX7PD4hraS8vt7LWXOKUWXGrpp2o6YFM=",
     "v4": "172.16.0.2",
     "v6": "2606:4700:110:8d94:d585:8bfb:ca89:a9c1",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
+    "priv": "sL1O64d7OzTDXmClIkp+tIR45d0yPPzHx+43D7Hsvks=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:8197:248e:22b3:f459:8979",
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
   },
   {
