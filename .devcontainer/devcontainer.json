@@ -1,0 +1,15 @@
+{
+  "name": "NMX AWG VPN Server",
+  "image": "://microsoft.com",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "forwardPorts":,
+  "portsAttributes": {
+    "16666": {
+      "label": "AmneziaWG UDP Port",
+      "onAutoForward": "ignore"
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/setup-awg.sh"
+}
