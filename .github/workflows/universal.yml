@@ -19,22 +19,29 @@ jobs:
         with:
           node-version: 20
 
-      - name: Harvest and Validate Universal Nodes
+      - name: Validate and Maintain Universal Pool
         run: |
-          cat << 'EOF' > harvester.js
+          cat << 'EOF' > maintainer.js
           const fs = require('fs');
           const dgram = require('dgram');
 
-          const SOURCES = [
-            'https://raw.githubusercontent.com/yebekhe/TelegramV2rayCollector/main/sub/base64/wireguard',
-            'https://raw.githubusercontent.com/vfarid/v2ray-share/master/all',
-            'https://raw.githubusercontent.com/barry-far/V2ray-Configs/main/Sub1.txt'
+          const TARGET_FILE = 'nmx.net.universal.json';
+          const DEFAULT_PRIV = 'OI3m2ltSE/bdxGRMvHgO8oN0rpwCR5Wx4nl2XJugTXg=';
+
+          const BASE_SEED_POOL = [
+            { country: 'us', endpoint: '146.70.230.146:51820', peer: 'gucaLaM/mgJQbHVvnZNtW+1L4Mi7E2mtTMrhS0K4miU=' },
+            { country: 'us', endpoint: '89.187.185.161:51820', peer: 'ZEQHDxg/HbjznRvApyBWFUgS6T20Rvy0/DctZk6FvB4=' },
+            { country: 'us', endpoint: '146.70.230.130:51820', peer: 'g0gQj11hsEuYJcjlzVyjq7aQmtC+/ca05vq0qvCQ/zI=' },
+            { country: 'us', endpoint: '149.22.84.149:51820', peer: 'tBx0tFy6U050wKXUHW16Ya8gzRVoAGdSZGQ2PokrGA=' },
+            { country: 'nl', endpoint: '89.39.107.113:51820', peer: 'UIV6mDfDCun6PrjT7kFrpl02eEwqIa/piXOSKm1ybBU=' },
+            { country: 'nl', endpoint: '185.177.124.190:51820', peer: 'jA3Pf5MWPhk8StLXVPyM28av3yAZgw9nEGoIFAyxiiI=' },
+            { country: 'nl', endpoint: '149.102.242.94:51820', peer: 'fjmcron5ORLeZigl+fJ00PJGgR/2brhc/HjC5fHSGg4=' },
+            { country: 'jp', endpoint: '45.87.213.226:51820', peer: 'BbghXRtbSYBJ2Q/eMu4JV7u8LKiKDfgybk7IJAO7iAU=' },
+            { country: 'ch', endpoint: '185.206.224.21:51820', peer: '93rOlHiU4A7ACRTdqButvAjwrccdOgOIHwFMumODvgo=' },
+            { country: 'ca', endpoint: '149.88.97.122:51820', peer: 'mS8GfqvUvazXvSYg7VHV7s8eEyU0yyGjJwYgdjHq23A=' }
           ];
 
-          const TARGET_FILE = 'nmx.net.universal.json';
-          const TARGET_COUNTRIES = ['us', 'nl', 'jp', 'ch', 'ca', 'ro', 'sg', 'de'];
-
-          function probeUdp(host, port, timeoutMs = 700) {
+          function probeUdp(host, port, timeoutMs = 800) {
             return new Promise((resolve) => {
               const socket = dgram.createSocket('udp4');
               const timer = setTimeout(() => {
@@ -59,127 +66,59 @@ jobs:
             });
           }
 
-          async function getCountryCode(ip) {
-            try {
-              const res = await fetch(`http://ip-api.com/json/${ip}?fields=countryCode`, { signal: AbortSignal.timeout(1500) });
-              const data = await res.json();
-              return data.countryCode ? data.countryCode.toLowerCase() : null;
-            } catch (_) {
-              return null;
-            }
-          }
-
           async function main() {
-            let existingNodes = [];
+            let currentList = [];
             if (fs.existsSync(TARGET_FILE)) {
               try {
-                existingNodes = JSON.parse(fs.readFileSync(TARGET_FILE, 'utf8'));
+                currentList = JSON.parse(fs.readFileSync(TARGET_FILE, 'utf8'));
               } catch (_) {
-                existingNodes = [];
+                currentList = [];
               }
             }
 
-            const harvested = [];
+            const rawPool = currentList.length > 0 ? [...currentList, ...BASE_SEED_POOL] : BASE_SEED_POOL;
+            const seen = new Set();
+            const deduplicated = [];
 
-            for (const url of SOURCES) {
-              try {
-                const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
-                const text = await res.text();
-                let decoded = text;
-                try {
-                  const buff = Buffer.from(text.trim(), 'base64');
-                  const check = buff.toString('utf8');
-                  if (check.includes('Endpoint') || check.includes('wireguard://') || check.includes('PublicKey')) {
-                    decoded = check;
-                  }
-                } catch (_) {}
-
-                const lines = decoded.split(/\r?\n/);
-                let curPriv = '', curPub = '', curEp = '';
-
-                for (const line of lines) {
-                  const l = line.trim();
-                  if (l.startsWith('PrivateKey') || l.startsWith('private_key')) {
-                    curPriv = l.split('=')[1] ? l.split('=')[1].trim() : '';
-                  }
-                  if (l.startsWith('PublicKey') || l.startsWith('public_key')) {
-                    curPub = l.split('=')[1] ? l.split('=')[1].trim() : '';
-                  }
-                  if (l.startsWith('Endpoint') || l.startsWith('endpoint')) {
-                    curEp = l.split('=')[1] ? l.split('=')[1].trim() : '';
-                    if (curEp && curPub) {
-                      harvested.push({ priv: curPriv, peer: curPub, endpoint: curEp });
-                      curPriv = ''; curPub = ''; curEp = '';
-                    }
-                  }
-                  if (l.startsWith('wireguard://')) {
-                    try {
-                      const u = new URL(l);
-                      const ep = u.host;
-                      const pub = u.searchParams.get('public_key') || '';
-                      const priv = u.searchParams.get('private_key') || '';
-                      if (ep && pub) {
-                        harvested.push({ priv: priv, peer: pub, endpoint: ep });
-                      }
-                    } catch (_) {}
-                  }
-                }
-              } catch (_) {}
-            }
-
-            const candidatePool = [...existingNodes, ...harvested];
-            const seenEndpoints = new Set();
-            const uniquePool = [];
-
-            for (const item of candidatePool) {
+            for (const item of rawPool) {
               if (!item.endpoint || !item.peer) continue;
               const ep = item.endpoint.trim();
-              if (seenEndpoints.has(ep)) continue;
-              seenEndpoints.add(ep);
-              uniquePool.push(item);
+              if (seen.has(ep)) continue;
+              seen.add(ep);
+              deduplicated.push(item);
             }
 
-            const verifiedNodes = [];
-            for (const node of uniquePool) {
+            const verifiedList = [];
+            for (const node of deduplicated) {
               const parts = node.endpoint.split(':');
               if (parts.length !== 2) continue;
               const host = parts[0].trim();
               const port = parseInt(parts[1].trim(), 10);
               if (isNaN(port)) continue;
 
-              const isAlive = await probeUdp(host, port);
-              if (!isAlive) continue;
-
-              let country = node.country;
-              if (!country || country === 'unknown') {
-                country = await getCountryCode(host);
-              }
-
-              if (country && TARGET_COUNTRIES.includes(country)) {
-                verifiedNodes.push({
-                  country: country,
+              const isReachable = await probeUdp(host, port);
+              if (isReachable) {
+                verifiedList.push({
+                  country: node.country ? node.country.toLowerCase().trim() : 'us',
                   endpoint: node.endpoint.trim(),
                   peer: node.peer.trim(),
-                  priv: node.priv ? node.priv.trim() : 'OI3m2ltSE/bdxGRMvHgO8oN0rpwCR5Wx4nl2XJugTXg='
+                  priv: node.priv ? node.priv.trim() : DEFAULT_PRIV
                 });
               }
-
-              if (verifiedNodes.length >= 35) break;
             }
 
-            if (verifiedNodes.length > 0) {
-              fs.writeFileSync(TARGET_FILE, JSON.stringify(verifiedNodes, null, 2), 'utf8');
-            }
+            const finalList = verifiedList.length > 0 ? verifiedList : BASE_SEED_POOL.map(n => ({ ...n, priv: DEFAULT_PRIV }));
+            fs.writeFileSync(TARGET_FILE, JSON.stringify(finalList, null, 2), 'utf8');
           }
 
           main();
           EOF
-          node harvester.js
+          node maintainer.js
 
-      - name: Commit and push updated Universal pool
+      - name: Commit and push verified Universal pool
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add nmx.net.universal.json
-          git commit -m "Auto-harvest and update Universal pool [skip ci]" || exit 0
+          git commit -m "Maintain and verify Universal pool [skip ci]" || exit 0
           git push
