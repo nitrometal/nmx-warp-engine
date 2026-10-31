@@ -15,6 +15,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
+        ref: main
 
     - name: Install WireGuard tools
       run: |
@@ -28,6 +29,10 @@ jobs:
         SERVER_PUB=$(echo "$SERVER_PRIV" | wg pubkey)
         
         ENDPOINT="127.0.0.1:16666" 
+
+        if [ ! -s nmx.net.universal.json ] || [ "$(cat nmx.net.universal.json)" = "" ]; then
+          echo "[]" > nmx.net.universal.json
+        fi
 
         NEW_ENTRY=$(jq -n \
           --arg co "us" \
@@ -44,4 +49,5 @@ jobs:
         git config --local user.name "GitHub Action"
         git add nmx.net.universal.json
         git commit -m "Автоматическое добавление новых ключей AmneziaWG"
-        git push
+        git push origin main
+        
