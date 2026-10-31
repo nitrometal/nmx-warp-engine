@@ -1,0 +1,185 @@
+name: Generate Universal Pool
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Harvest and Validate Universal Nodes
+        run: |
+          cat << 'EOF' > harvester.js
+          const fs = require('fs');
+          const dgram = require('dgram');
+
+          const SOURCES = [
+            'https://raw.githubusercontent.com/yebekhe/TelegramV2rayCollector/main/sub/base64/wireguard',
+            'https://raw.githubusercontent.com/vfarid/v2ray-share/master/all',
+            'https://raw.githubusercontent.com/barry-far/V2ray-Configs/main/Sub1.txt'
+          ];
+
+          const TARGET_FILE = 'nmx.net.universal.json';
+          const TARGET_COUNTRIES = ['us', 'nl', 'jp', 'ch', 'ca', 'ro', 'sg', 'de'];
+
+          function probeUdp(host, port, timeoutMs = 700) {
+            return new Promise((resolve) => {
+              const socket = dgram.createSocket('udp4');
+              const timer = setTimeout(() => {
+                try { socket.close(); } catch (_) {}
+                resolve(true);
+              }, timeoutMs);
+
+              socket.on('error', () => {
+                clearTimeout(timer);
+                try { socket.close(); } catch (_) {}
+                resolve(false);
+              });
+
+              const buf = Buffer.alloc(32);
+              socket.send(buf, 0, buf.length, port, host, (err) => {
+                if (err) {
+                  clearTimeout(timer);
+                  try { socket.close(); } catch (_) {}
+                  resolve(false);
+                }
+              });
+            });
+          }
+
+          async function getCountryCode(ip) {
+            try {
+              const res = await fetch(http://ip-api.com/json/${ip}?fields=countryCode, { signal: AbortSignal.timeout(1500) });
+              const data = await res.json();
+              return data.countryCode ? data.countryCode.toLowerCase() : null;
+            } catch (_) {
+              return null;
+            }
+          }
+
+          async function main() {
+            let existingNodes = [];
+            if (fs.existsSync(TARGET_FILE)) {
+              try {
+                existingNodes = JSON.parse(fs.readFileSync(TARGET_FILE, 'utf8'));
+              } catch (_) {
+                existingNodes = [];
+              }
+            }
+
+            const harvested = [];
+
+            for (const url of SOURCES) {
+              try {
+                const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
+                const text = await res.text();
+                let decoded = text;
+                try {
+                  const buff = Buffer.from(text.trim(), 'base64');
+                  const check = buff.toString('utf8');
+                  if (check.includes('Endpoint')  check.includes('wireguard://')  check.includes('PublicKey')) {
+                    decoded = check;
+                  }
+                } catch (_) {}
+
+                const lines = decoded.split(/\r?\n/);
+                let curPriv = '', curPub = '', curEp = '';
+
+                for (const line of lines) {
+                  const l = line.trim();
+                  if (l.startsWith('PrivateKey') || l.startsWith('private_key')) {
+                    curPriv = l.split('=')[1] ? l.split('=')[1].trim() : '';
+                  }
+                  if (l.startsWith('PublicKey') || l.startsWith('public_key')) {
+                    curPub = l.split('=')[1] ? l.split('=')[1].trim() : '';
+                  }
+                  if (l.startsWith('Endpoint') || l.startsWith('endpoint')) {
+                    curEp = l.split('=')[1] ? l.split('=')[1].trim() : '';
+                    if (curEp && curPub) {
+                      harvested.push({ priv: curPriv, peer: curPub, endpoint: curEp });
+                      curPriv = ''; curPub = ''; curEp = '';
+                    }
+                  }
+                  if (l.startsWith('wireguard://')) {
+                    try {
+                      const u = new URL(l);
+                      const ep = u.host;
+                      const pub = u.searchParams.get('public_key') || '';
+                      const priv = u.searchParams.get('private_key') || '';
+                      if (ep && pub) {
+                        harvested.push({ priv: priv, peer: pub, endpoint: ep });
+                      }
+                    } catch (_) {}
+                  }
+                }
+              } catch (_) {}
+            }
+
+            const candidatePool = [...existingNodes, ...harvested];
+            const seenEndpoints = new Set();
+            const uniquePool = [];
+
+            for (const item of candidatePool) {
+              if (!item.endpoint || !item.peer) continue;
+              const ep = item.endpoint.trim();
+              if (seenEndpoints.has(ep)) continue;
+              seenEndpoints.add(ep);
+              uniquePool.push(item);
+            }
+
+            const verifiedNodes = [];
+            for (const node of uniquePool) {
+              const parts = node.endpoint.split(':');
+              if (parts.length !== 2) continue;
+              const host = parts[0].trim();
+              const port = parseInt(parts[1].trim(), 10);
+              if (isNaN(port)) continue;
+
+              const isAlive = await probeUdp(host, port);
+              if (!isAlive) continue;
+
+              let country = node.country;
+              if (!country || country === 'unknown') {
+                country = await getCountryCode(host);
+              }
+
+              if (country && TARGET_COUNTRIES.includes(country)) {
+                verifiedNodes.push({
+                  country: country,
+                  endpoint: node.endpoint.trim(),
+                  peer: node.peer.trim(),
+                  priv: node.priv ? node.priv.trim() : 'OI3m2ltSE/bdxGRMvHgO8oN0rpwCR5Wx4nl2XJugTXg='
+                });
+              }
+
+              if (verifiedNodes.length >= 35) break;
+            }
+
+            if (verifiedNodes.length > 0) {
+              fs.writeFileSync(TARGET_FILE, JSON.stringify(verifiedNodes, null, 2), 'utf8');
+            }
+          }
+
+          main();
+          EOF
+          node harvester.js
+
+      - name: Commit and push updated Universal pool
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add nmx.net.universal.json
+          git commit -m "Auto-harvest and update Universal pool [skip ci]" || exit 0
+          git push
