@@ -61,7 +61,7 @@ jobs:
 
           async function getCountryCode(ip) {
             try {
-              const res = await fetch(http://ip-api.com/json/${ip}?fields=countryCode, { signal: AbortSignal.timeout(1500) });
+              const res = await fetch(`http://ip-api.com/json/${ip}?fields=countryCode`, { signal: AbortSignal.timeout(1500) });
               const data = await res.json();
               return data.countryCode ? data.countryCode.toLowerCase() : null;
             } catch (_) {
@@ -89,7 +89,7 @@ jobs:
                 try {
                   const buff = Buffer.from(text.trim(), 'base64');
                   const check = buff.toString('utf8');
-                  if (check.includes('Endpoint')  check.includes('wireguard://')  check.includes('PublicKey')) {
+                  if (check.includes('Endpoint') || check.includes('wireguard://') || check.includes('PublicKey')) {
                     decoded = check;
                   }
                 } catch (_) {}
