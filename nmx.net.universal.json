@@ -1,6 +1,12 @@
 [
   {
     "country": "us",
+    "endpoint": "146.70.230.130:51820",
+    "peer": "g0gQj11hsEuYJcjlzVyjq7aQmtC+/ca05vq0qvCQ/zI=",
+    "priv": "OI3m2ltSE/bdxGRMvHgO8oN0rpwCR5Wx4nl2XJugTXg="
+  },
+  {
+    "country": "us",
     "endpoint": "146.70.230.146:51820",
     "peer": "gucaLaM/mgJQbHVvnZNtW+1L4Mi7E2mtTMrhS0K4miU=",
     "priv": "OI3m2ltSE/bdxGRMvHgO8oN0rpwCR5Wx4nl2XJugTXg="
@@ -39,6 +45,12 @@
     "country": "jp",
     "endpoint": "45.87.213.226:51820",
     "peer": "BbghXRtbSYBJ2Q/eMu4JV7u8LKiKDfgybk7IJAO7iAU=",
+    "priv": "OI3m2ltSE/bdxGRMvHgO8oN0rpwCR5Wx4nl2XJugTXg="
+  },
+  {
+    "country": "us",
+    "endpoint": "89.187.185.161:51820",
+    "peer": "ZEQHDxg/HbjznRvApyBWFUgS6T20Rvy0/DctZk6FvB4=",
     "priv": "OI3m2ltSE/bdxGRMvHgO8oN0rpwCR5Wx4nl2XJugTXg="
   },
   {
