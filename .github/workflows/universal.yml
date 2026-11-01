@@ -1,0 +1,84 @@
+name: Generate Universal Pool
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install tools
+        run: sudo apt-get update && sudo apt-get install -y wireguard-tools jq curl
+
+      - name: Generate Cloudflare Universal Nodes
+        run: |
+          cat << 'EOF' > generate_universal.sh
+          TARGET_FILE="nmx.net.universal.json"
+
+          COUNTRIES=("us" "nl" "jp" "ch" "ca")
+
+          declare -A ENDPOINTS
+          ENDPOINTS["us"]="162.159.192.1:500 162.159.193.1:2408 162.159.192.2:500 162.159.195.1:2408"
+          ENDPOINTS["nl"]="188.114.96.1:500 188.114.97.1:2408 188.114.98.1:500 188.114.99.1:2408"
+          ENDPOINTS["jp"]="162.159.192.5:500 162.159.193.5:2408 162.159.195.5:500"
+          ENDPOINTS["ch"]="188.114.97.2:500 188.114.96.2:2408 188.114.98.2:500"
+          ENDPOINTS["ca"]="162.159.192.10:500 162.159.193.10:2408 162.159.195.10:500"
+
+          UNIVERSAL_POOL="[]"
+
+          for country in "${COUNTRIES[@]}"; do
+            read -ra EP_LIST <<< "${ENDPOINTS[$country]}"
+            for ep in "${EP_LIST[@]}"; do
+              priv=$(wg genkey)
+              pub=$(echo "$priv" | wg pubkey)
+              iso=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+              reg=$(curl -s -H 'User-Agent: okhttp/3.12.1' -H 'Content-Type: application/json' -X POST \
+                "https://api.cloudflareclient.com/v0i1909051800/reg" \
+                -d "{\"install_id\":\"\",\"tos\":\"$iso\",\"key\":\"$pub\",\"fcm_token\":\"\",\"type\":\"ios\",\"locale\":\"en_US\"}")
+
+              id=$(echo "$reg" | jq -r '.result.id // empty')
+              token=$(echo "$reg" | jq -r '.result.token // empty')
+
+              if [ -n "$id" ] && [ -n "$token" ]; then
+                patch=$(curl -s -H 'User-Agent: okhttp/3.12.1' -H 'Content-Type: application/json' \
+                  -H "Authorization: Bearer $token" -X PATCH \
+                  "https://api.cloudflareclient.com/v0i1909051800/reg/$id" \
+                  -d '{"warp_enabled":true}')
+
+                v4=$(echo "$patch" | jq -r '.result.config.interface.addresses.v4 // "172.16.0.2"')
+                v6=$(echo "$patch" | jq -r '.result.config.interface.addresses.v6 // ""')
+                peer=$(echo "$patch" | jq -r '.result.config.peers[0].public_key // "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="')
+
+                NEW_NODE=$(jq -n \
+                  --arg c "$country" \
+                  --arg ep "$ep" \
+                  --arg pp "$peer" \
+                  --arg pr "$priv" \
+                  --arg v4 "$v4" \
+                  --arg v6 "$v6" \
+                  '{country: $c, endpoint: $ep, peer: $pp, priv: $pr, v4: $v4, v6: $v6}')
+
+                UNIVERSAL_POOL=$(echo "$UNIVERSAL_POOL" | jq --argjson item "$NEW_NODE" '. + [$item]')
+              fi
+              sleep 1
+            done
+          done
+
+          echo "$UNIVERSAL_POOL" > "$TARGET_FILE"
+          EOF
+          bash generate_universal.sh
+
+      - name: Commit and push updated Universal pool
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add nmx.net.universal.json
+          git diff --staged --quiet || (git commit -m "Generate Cloudflare Universal pool [skip ci]" && git push)
