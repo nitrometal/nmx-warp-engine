@@ -396,6 +396,18 @@
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
   },
   {
+    "priv": "GNUBfuXa8tvZHmEoopELAuzpLiohfjzn7HeftteT/n8=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:83db:aa07:5403:e634:b172",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
+    "priv": "IDMGVsylsjoW68Txy9uEocgHft8SNfXnaiBbBjdZz1c=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:8653:2a3:476b:be02:1c16",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
     "priv": "IEPs4qP1UtIC7JNCB+jbNlrxLj2BOU+fbUshjWCvdEU=",
     "v4": "172.16.0.2",
     "v6": "2606:4700:110:8025:488b:a473:392a:3e45",
@@ -492,9 +504,21 @@
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
   },
   {
+    "priv": "MCVcGu8JIQprYKG7SjGRC22A74fWSz+HSJYJ5E+vCl4=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:8d01:6bef:9cf6:f6ec:329a",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
     "priv": "MK8EvQGAXc4x9qS+e209T2Ovfzl0KqjDlI9b9xHNhmA=",
     "v4": "172.16.0.2",
     "v6": "2606:4700:110:86c9:4210:bbaf:81f6:7de2",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
+    "priv": "MLfLcH1Vxu6nF0KaMsj7oh7oH/PFI5e99U4Vqa0lv3E=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:83ee:2292:13b4:7df6:c6ba",
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
   },
   {
@@ -561,6 +585,12 @@
     "priv": "SBZEJ7DfS05aDBOKmUgkf9XCV386byneOzaJFtFF/Vw=",
     "v4": "172.16.0.2",
     "v6": "2606:4700:110:89e0:8ff:bb93:852b:b785",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
+    "priv": "SBtBOndW6AMz8j23WLK+MJDZWU3ofIBLnkYMofk9w3Y=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:8f42:9408:fe01:8264:7aae",
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
   },
   {
@@ -765,6 +795,12 @@
     "priv": "cGADCavQBD5pEGxyv9MmHj9YTU6avTocGME7bF5N5GU=",
     "v4": "172.16.0.2",
     "v6": "2606:4700:110:8325:6c74:69c1:8936:d298",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
+    "priv": "cICEJroFW2EMVaiv3TQ/iOHpxDJk9hIaP1TeB9u2h2Y=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:8aaf:4cd9:4f3b:e457:feb4",
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
   },
   {
