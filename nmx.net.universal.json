@@ -1,1 +1,27 @@
-
+[
+  {
+    "country": "us",
+    "endpoint": "146.70.230.146:51820",
+    "peer": "uGMiEYDDUSHlyt9yjcOr5vkXVrgzydTr4Sf78SzgFgQ="
+  },
+  {
+    "country": "jp",
+    "endpoint": "146.70.230.146:51820",
+    "peer": "x5qo57zNuApDlNkJCoKHNPzNis8a7bKZq4FC4terIQ8="
+  },
+  {
+    "country": "ch",
+    "endpoint": "146.70.230.146:51820",
+    "peer": "eOPEHIBqjb/lin4vFvPhSFPgX0Wysb2qAKFSh6cVmVY="
+  },
+  {
+    "country": "nl",
+    "endpoint": "146.70.230.146:51820",
+    "peer": "HSlqiDhTUNkAdzIn3h7wt8uqRVCj4/ao5DRKkdPh9Hk="
+  },
+  {
+    "country": "ca",
+    "endpoint": "146.70.230.146:51820",
+    "peer": "zU3YakEW63T2XPTtSs3YRw3uR6bePj8lZqAdm62joBs="
+  }
+]
