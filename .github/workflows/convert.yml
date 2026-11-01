@@ -5,6 +5,7 @@ on:
     paths:
       - 'raw_nmx_server'
       - 'raw_nmx_server.txt'
+      - 'raw_nmx_server.conf'
   workflow_dispatch:
 
 jobs:
@@ -29,19 +30,27 @@ jobs:
           const TARGET_FILE = 'nmx.net.universal.json';
           const DEFAULT_PRIV = '4DNYAYc5s5vVefuTDziBjiZbU8SGc7TKHHxDvpCrIWc=';
 
-          let inputFile = null;
-          if (fs.existsSync('raw_nmx_server')) {
-            inputFile = 'raw_nmx_server';
-          } else if (fs.existsSync('raw_nmx_server.txt')) {
-            inputFile = 'raw_nmx_server.txt';
-          }
+          const allFiles = fs.readdirSync('.');
+          console.log('Files in repo root:', allFiles);
+
+          let inputFile = allFiles.find(f => {
+            const lower = f.toLowerCase();
+            return lower === 'raw_nmx_server' ||
+                   lower === 'raw_nmx_server.txt' ||
+                   lower === 'raw_nmx_server.conf' ||
+                   (lower.includes('raw') && lower.includes('server'));
+          });
 
           if (!inputFile) {
-            process.exit(0);
+            console.log('Error: raw input file not found');
+            process.exit(1);
           }
 
+          console.log('Found input file:', inputFile);
           const rawData = fs.readFileSync(inputFile, 'utf8');
+
           if (!rawData.trim()) {
+            console.log('Input file is empty, nothing to convert');
             process.exit(0);
           }
 
@@ -55,42 +64,46 @@ jobs:
           }
 
           const parsedNodes = [];
-          const blocks = rawData.split(/\[Interface\]/i).filter(b => b.trim());
+          const chunks = rawData.split(/(?=\[Interface\])/i);
 
-          for (const block of blocks) {
-            const privMatch = block.match(/PrivateKey\s*=\s*([^\s\r\n]+)/i);
-            const pubMatch = block.match(/PublicKey\s*=\s*([^\s\r\n]+)/i);
-            const epMatch = block.match(/Endpoint\s*=\s*([0-9a-zA-Z\.\-]+:[0-9]+)/i);
+          for (const chunk of chunks) {
+            if (!chunk.trim()) continue;
 
-            let priv = DEFAULT_PRIV;
-            if (privMatch && privMatch[1]) {
-              priv = privMatch[1].trim();
-            }
+            const privMatch = chunk.match(/PrivateKey\s*=\s*([a-zA-Z0-9+/=]+)/i);
+            const priv = privMatch ? privMatch[1].trim() : DEFAULT_PRIV;
 
-            let country = 'us';
-            const countryMatch = block.match(/#\s*([A-Za-z]{2})-(?:FREE|[0-9]+)/i) || block.match(/#\s*([A-Za-z]{2})/i);
-            if (countryMatch && countryMatch[1]) {
-              country = countryMatch[1].toLowerCase().trim();
-            } else if (block.toLowerCase().includes('switzerland') || block.toLowerCase().includes('ch-')) {
-              country = 'ch';
-            } else if (block.toLowerCase().includes('netherlands') || block.toLowerCase().includes('nl-')) {
-              country = 'nl';
-            } else if (block.toLowerCase().includes('japan') || block.toLowerCase().includes('jp-')) {
-              country = 'jp';
-            } else if (block.toLowerCase().includes('canada') || block.toLowerCase().includes('ca-')) {
-              country = 'ca';
-            } else if (block.toLowerCase().includes('poland') || block.toLowerCase().includes('pl-')) {
-              country = 'pl';
-            } else if (block.toLowerCase().includes('romania') || block.toLowerCase().includes('ro-')) {
-              country = 'ro';
-            } else if (block.toLowerCase().includes('singapore') || block.toLowerCase().includes('sg-')) {
-              country = 'sg';
-            }
+            const peerBlocks = chunk.split(/(?=\[Peer\])/i);
+            for (const pBlock of peerBlocks) {
+              const epMatch = pBlock.match(/Endpoint\s*=\s*([0-9a-zA-Z\.\-]+:[0-9]+)/i);
+              const pubMatch = pBlock.match(/PublicKey\s*=\s*([a-zA-Z0-9+/=]+)/i);
 
-            if (epMatch && pubMatch) {
-              const ep = epMatch[1].trim();
-              const pub = pubMatch[1].trim();
-              if (ep.includes(':') && pub.length > 20) {
+              if (epMatch && pubMatch) {
+                const ep = epMatch[1].trim();
+                const pub = pubMatch[1].trim();
+
+                let country = 'us';
+                const cMatch = pBlock.match(/#\s*([A-Za-z]{2})-(?:FREE|[0-9]+)/i) ||
+                               chunk.match(/#\s*([A-Za-z]{2})-(?:FREE|[0-9]+)/i) ||
+                               pBlock.match(/#\s*([A-Za-z]{2})\s*$/m);
+
+                if (cMatch) {
+                  country = cMatch[1].toLowerCase().trim();
+                } else if (pBlock.toLowerCase().includes('switzerland') || chunk.toLowerCase().includes('ch-')) {
+                  country = 'ch';
+                } else if (pBlock.toLowerCase().includes('netherlands') || chunk.toLowerCase().includes('nl-')) {
+                  country = 'nl';
+                } else if (pBlock.toLowerCase().includes('japan') || chunk.toLowerCase().includes('jp-')) {
+                  country = 'jp';
+                } else if (pBlock.toLowerCase().includes('canada') || chunk.toLowerCase().includes('ca-')) {
+                  country = 'ca';
+                } else if (pBlock.toLowerCase().includes('poland') || chunk.toLowerCase().includes('pl-')) {
+                  country = 'pl';
+                } else if (pBlock.toLowerCase().includes('romania') || chunk.toLowerCase().includes('ro-')) {
+                  country = 'ro';
+                } else if (pBlock.toLowerCase().includes('singapore') || chunk.toLowerCase().includes('sg-')) {
+                  country = 'sg';
+                }
+
                 parsedNodes.push({
                   country: country,
                   endpoint: ep,
@@ -100,6 +113,8 @@ jobs:
               }
             }
           }
+
+          console.log('Successfully parsed nodes from input:', parsedNodes.length);
 
           const combined = [...parsedNodes, ...existingNodes];
           const seenEndpoints = new Set();
@@ -120,6 +135,8 @@ jobs:
 
           fs.writeFileSync(TARGET_FILE, JSON.stringify(uniqueNodes, null, 2), 'utf8');
           fs.writeFileSync(inputFile, '', 'utf8');
+          console.log('Total nodes in database:', uniqueNodes.length);
+          console.log('Emptied input file for next batch');
           EOF
           node converter.js
 
@@ -127,5 +144,6 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "NMX Action Bot"
-          git add nmx.net.universal.json raw_nmx_server raw_nmx_server.txt 2>/dev/null || true
+          git add nmx.net.universal.json raw_nmx_server raw_nmx_server.txt raw_nmx_server.conf 2>/dev/null || true
+          git add -u
           git diff --staged --quiet || (git commit -m "NMX Engine: Ingest and build Universal nodes [skip ci]" && git push)
