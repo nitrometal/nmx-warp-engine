@@ -3,56 +3,48 @@
     "country": "us",
     "endpoint": "162.159.192.1:500",
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
-    "priv": "EBQ8Vgb7KuNR1syRX1g/kHryQwN1g5ctucL1NBLTA34=",
+    "priv": "uIWTKeU7VgaifkdohnwDdxQEgibUeBVviOthrK4AkWM=",
     "v4": "172.16.0.2",
-    "v6": "2606:4700:110:8bb1:6b77:b62a:8814:fdb5"
+    "v6": "2606:4700:110:87be:b2b:2e6f:3740:4626"
   },
   {
     "country": "us",
     "endpoint": "162.159.193.1:2408",
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
-    "priv": "mI7DiPXg2Q70+bCwVoyaweFUsn6pjK14h05VUMfuhGY=",
+    "priv": "qBo6TRRRR60PlLN4P4NiNgio0kuj2iwD+nEkCCUYWlw=",
     "v4": "172.16.0.2",
-    "v6": "2606:4700:110:86dc:173a:9dbd:cddd:b7d5"
+    "v6": "2606:4700:110:8f44:9f39:fd14:3fc0:ccc2"
   },
   {
     "country": "us",
     "endpoint": "162.159.192.2:500",
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
-    "priv": "uKS1xOnzJlRtkHbgdHvYxrFwAwgSkvwXn0t+6p1plXI=",
+    "priv": "IGe47nJMVa3iyZNNKzi2MGzyMsCKCjOPR8COVDalgVM=",
     "v4": "172.16.0.2",
-    "v6": "2606:4700:110:8511:697d:aac7:f620:7aca"
+    "v6": "2606:4700:110:8c53:20b5:99ea:d841:ddde"
   },
   {
     "country": "us",
     "endpoint": "162.159.195.1:2408",
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
-    "priv": "mIEeOjK/cew9mxj5kPx9Y3qxHEUOcpgyTC5aQi+brlo=",
+    "priv": "YMbmtZJwdAGjmC6mv959KRi9hbW4WYPAIXJIrhbVT3o=",
     "v4": "172.16.0.2",
-    "v6": "2606:4700:110:8c50:e672:ff40:c661:6d1"
+    "v6": "2606:4700:110:8769:23be:555:717f:19ec"
   },
   {
     "country": "nl",
     "endpoint": "188.114.96.1:500",
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
-    "priv": "KA3i0ghHTRNfOftN69KKG6PLj/tMCcVSJArGg7MzbXo=",
+    "priv": "8NlI1rM/gKwY7q+nApFcRUBvoHYgXNuyxfaPFLIL53k=",
     "v4": "172.16.0.2",
-    "v6": "2606:4700:110:859f:ccbb:e867:3e2e:8cd2"
+    "v6": "2606:4700:110:8644:fb1a:2102:7aad:db4e"
   },
   {
     "country": "nl",
     "endpoint": "188.114.97.1:2408",
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
-    "priv": "EJiC6KRr7o912ciKRQBa85Jzk8c7Oa2jFEQYwOKB53M=",
+    "priv": "WPoYV61xG77vpzqTgEczJEaDr7I2X8etVm52OuK4tVQ=",
     "v4": "172.16.0.2",
-    "v6": "2606:4700:110:8f1e:c488:697:9adb:75b7"
-  },
-  {
-    "country": "nl",
-    "endpoint": "188.114.98.1:500",
-    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
-    "priv": "yAOM2ikG8FIn1m6Z+uMVRlBe1XnfSFKUx/NWYlc7j3g=",
-    "v4": "172.16.0.2",
-    "v6": "2606:4700:110:8591:e423:c9db:4fb1:95ce"
+    "v6": "2606:4700:110:820e:de8c:d309:7f2:189a"
   }
 ]
