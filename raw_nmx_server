@@ -1,0 +1,350 @@
+[Interface]
+# Key for NMX.NET.UNIVERSAL
+# Bouncing = 0
+# NAT-PMP (Port Forwarding) = off
+# VPN Accelerator = on
+PrivateKey = eI2ZwmXxNjOaisKcDMoPXJUOt0oBb5pX1JhhyHbTiko=
+Address = 10.2.0.2/32
+DNS = 10.2.0.1
+
+[Peer]
+# CH-FREE#11
+PublicKey = L6Vcy4PWQOyzFsjOI0GNCDypvzZfTuuZ14qmR1sT5QE=
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 135.136.39.34:51820
+
+PersistentKeepalive = 25
+
+[Interface]
+# Bouncing = 2
+# NAT-PMP (Port Forwarding) = off
+# VPN Accelerator = on
+PrivateKey = YJpoQBVZxfDxMN05seYD/p4dJgbXXG9Dm1TF0epSFGA=
+Address = 10.2.0.2/32, 2a07:b944::2:2/128
+DNS = 10.2.0.1, 2a07:b944::2:1
+
+[Peer]
+# US-FREE#2
+PublicKey = ZEQHDxg/HbjznRvApyBWfUGs6T20Rvy0/DctZk6FvB4=
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 89.187.185.161:51820
+
+# Uncomment the following line (delete the # symbol) to connect to Proton VPN using IPv6.
+# Endpoint = [2a02:6ea0:c822::10]:51820
+PersistentKeepalive = 25
+
+[Interface]
+# Bouncing = 1
+# NAT-PMP (Port Forwarding) = off
+# VPN Accelerator = on
+PrivateKey = CCgU2N7llKDNs9rY6HtIcNRPbAx5xq+O8c6rC8VNpGU=
+Address = 10.2.0.2/32, 2a07:b944::2:2/128
+DNS = 10.2.0.1, 2a07:b944::2:1
+
+[Peer]
+# US-FREE#60
+PublicKey = oGVahl/rkt0i22DILrVpPSmYZmqcmSup/HQ/upVf2Vg=
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 138.199.35.120:51820
+
+# Uncomment the following line (delete the # symbol) to connect to Proton VPN using IPv6.
+# Endpoint = [2a02:6ea0:c803:3092::10]:51820
+PersistentKeepalive = 25
+
+[Interface]
+# Bouncing = 0
+# NAT-PMP (Port Forwarding) = off
+# VPN Accelerator = on
+PrivateKey = wMUK0OVzVy4gNV7c5yYhYLR7n44z8/KgLmSZQC8bLnI=
+Address = 10.2.0.2/32, 2a07:b944::2:2/128
+DNS = 10.2.0.1, 2a07:b944::2:1
+
+[Peer]
+# US-FREE#66
+PublicKey = Uqp1/VJ/Lz2VoN/2D0HEG7G8WDxLJm7+JNC5KZrUREw=
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 149.88.30.88:51820
+
+# Uncomment the following line (delete the # symbol) to connect to Proton VPN using IPv6.
+# Endpoint = [2a02:6ea0:c803:5521::10]:51820
+PersistentKeepalive = 25
+
+[Interface]
+# Bouncing = 2
+# NAT-PMP (Port Forwarding) = off
+# VPN Accelerator = on
+PrivateKey = SF1F2zer1Z7lKs5hBluT3nl6W8iOcMN+xn8VhAUcvEQ=
+Address = 10.2.0.2/32, 2a07:b944::2:2/128
+DNS = 10.2.0.1, 2a07:b944::2:1
+
+[Peer]
+# US-FREE#95
+PublicKey = KZ9UhGk5qLny663HP6xWCfyIDH2xgvu9DNH5tGYmYnw=
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 138.199.50.144:51820
+
+# Uncomment the following line (delete the # symbol) to connect to Proton VPN using IPv6.
+# Endpoint = [2a02:6ea0:cc02:5482::10]:51820
+PersistentKeepalive = 25
+
+[Interface]
+# Bouncing = 2
+# NAT-PMP (Port Forwarding) = off
+# VPN Accelerator = on
+PrivateKey = OMrzvxaWGLJZNfF/e1eZs0LDWqdmwzwm2fS4w3OpDXE=
+Address = 10.2.0.2/32, 2a07:b944::2:2/128
+DNS = 10.2.0.1, 2a07:b944::2:1
+
+[Peer]
+# US-FREE#96
+PublicKey = jShHBnjRpU3cgm2apLl0OElwSK0fs/gJTm9nnjdO8Ec=
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 149.40.62.119:51820
+
+# Uncomment the following line (delete the # symbol) to connect to Proton VPN using IPv6.
+# Endpoint = [2a02:6ea0:d802:5483::10]:51820
+PersistentKeepalive = 25
+
+[Interface]
+# Bouncing = 3
+# NAT-PMP (Port Forwarding) = off
+# VPN Accelerator = on
+PrivateKey = 8K1Sk8QYpUxUmBhRg7qNWlXAvRoT11ezCZ3Tm9OKfW8=
+Address = 10.2.0.2/32, 2a07:b944::2:2/128
+DNS = 10.2.0.1, 2a07:b944::2:1
+
+[Peer]
+# US-FREE#97
+PublicKey = hHAVQ7Yq02DTvC9FaDjpVvbp4sIULN8ACQ15xwcokkU=
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 149.102.242.89:51820
+
+# Uncomment the following line (delete the # symbol) to connect to Proton VPN using IPv6.
+# Endpoint = [2a02:6ea0:c10d:5484::10]:51820
+PersistentKeepalive = 25
+
+[Interface]
+# Bouncing = 3
+# NAT-PMP (Port Forwarding) = off
+# VPN Accelerator = on
+PrivateKey = mEQIscvZOnmmYBOmjjaWaLxRqfLvRrOya9O1Il82R2I=
+Address = 10.2.0.2/32, 2a07:b944::2:2/128
+DNS = 10.2.0.1, 2a07:b944::2:1
+
+[Peer]
+# US-FREE#98
+PublicKey = fjmcron5ORLeZigl+fJ00PJGgR/2brhc/HjC5fHSGg4=
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 149.102.242.94:51820
+
+# Uncomment the following line (delete the # symbol) to connect to Proton VPN using IPv6.
+# Endpoint = [2a02:6ea0:c10d:5485::10]:51820
+PersistentKeepalive = 25
+
+[Interface]
+# Bouncing = 2
+# NAT-PMP (Port Forwarding) = off
+# VPN Accelerator = on
+PrivateKey = ULY5WZhhz1+fHBQlQwlIuBXX9FIPmt+PhuaZAIg3DUM=
+Address = 10.2.0.2/32, 2a07:b944::2:2/128
+DNS = 10.2.0.1, 2a07:b944::2:1
+
+[Peer]
+# US-FREE#99
+PublicKey = 03idG1N3+mPn+n2SRqYcdFdbeUYSirXzJVnIejIv30I=
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 149.102.242.98:51820
+
+# Uncomment the following line (delete the # symbol) to connect to Proton VPN using IPv6.
+# Endpoint = [2a02:6ea0:c10d:5486::10]:51820
+PersistentKeepalive = 25
+
+[Interface]
+# Bouncing = 0
+# NAT-PMP (Port Forwarding) = off
+# VPN Accelerator = on
+PrivateKey = AG4uDawZe004/A0kvxK5lz5J/eA83SLgsqlQtov0Jkw=
+Address = 10.2.0.2/32, 2a07:b944::2:2/128
+DNS = 10.2.0.1, 2a07:b944::2:1
+
+[Peer]
+# US-FREE#100
+PublicKey = ScC9Xa17XOIaOKojR9deixPPrLtwdyAbnPOifwVHVh8=
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 149.102.242.103:51820
+
+# Uncomment the following line (delete the # symbol) to connect to Proton VPN using IPv6.
+# Endpoint = [2a02:6ea0:c10d:5487::10]:51820
+PersistentKeepalive = 25
+
+[Interface]
+# Bouncing = 1
+# NAT-PMP (Port Forwarding) = off
+# VPN Accelerator = on
+PrivateKey = mJVmB0BoOieu8WRDdgNOdJBUkY0IdajSNiXdVvwqcWs=
+Address = 10.2.0.2/32, 2a07:b944::2:2/128
+DNS = 10.2.0.1, 2a07:b944::2:1
+
+[Peer]
+# US-FREE#102
+PublicKey = VZghTYxgyeiYtJ8HcBRaOFRnRjqSoNYmHVSoOQLz3gA=
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 149.88.18.238:51820
+
+# Uncomment the following line (delete the # symbol) to connect to Proton VPN using IPv6.
+# Endpoint = [2a02:6ea0:e20d:5489::10]:51820
+PersistentKeepalive = 25
+
+[Interface]
+# Bouncing = 2
+# NAT-PMP (Port Forwarding) = off
+# VPN Accelerator = on
+PrivateKey = GCawIoCMtkGQp/tijRBYw+ugVqNeYoGrX5rZqsk2elU=
+Address = 10.2.0.2/32
+DNS = 10.2.0.1
+
+[Peer]
+# US-FREE#105
+PublicKey = +nfuVNp0Pevo7gksdbUCpgcNa+oowtZI/m031Ww3Iy0=
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 79.127.147.88:51820
+
+PersistentKeepalive = 25
+
+[Interface]
+# Bouncing = 2
+# NAT-PMP (Port Forwarding) = off
+# VPN Accelerator = on
+PrivateKey = kLwOTm1nPsDoARgaUP0vwTokzlp4TUmzSukUbpCOEUc=
+Address = 10.2.0.2/32, 2a07:b944::2:2/128
+DNS = 10.2.0.1, 2a07:b944::2:1
+
+[Peer]
+# US-FREE#107
+PublicKey = yT2Tued8a5BBI+AL0o+Kc3oSQdQlUew8tRzrHTYQnV4=
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 149.22.88.139:51820
+
+# Uncomment the following line (delete the # symbol) to connect to Proton VPN using IPv6.
+# Endpoint = [2a02:6ea0:d802:5517::10]:51820
+PersistentKeepalive = 25
+
+[Interface]
+# Bouncing = 2
+# NAT-PMP (Port Forwarding) = off
+# VPN Accelerator = on
+PrivateKey = 4Mygt5qUubnBMkNEwoaya9KKJqOnwwTx2kgufWeV4Go=
+Address = 10.2.0.2/32, 2a07:b944::2:2/128
+DNS = 10.2.0.1, 2a07:b944::2:1
+
+[Peer]
+# US-FREE#108
+PublicKey = 4btNnE0wgT8Ago43+/EsNtsUqqnxCZnsUuluZCoW1VY=
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 149.22.88.144:51820
+
+# Uncomment the following line (delete the # symbol) to connect to Proton VPN using IPv6.
+# Endpoint = [2a02:6ea0:d802:5518::10]:51820
+PersistentKeepalive = 25
+
+[Interface]
+# Bouncing = 0
+# NAT-PMP (Port Forwarding) = off
+# VPN Accelerator = on
+PrivateKey = oPvNWMgqpVXHTkbZXrdG5chfEglhhybIWjWTmYAHBHo=
+Address = 10.2.0.2/32, 2a07:b944::2:2/128
+DNS = 10.2.0.1, 2a07:b944::2:1
+
+[Peer]
+# US-FREE#109
+PublicKey = 0q5TxQQMNVQ6wEcLqnHa20G0DP/fpk8YdgLJUYApfTo=
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 149.22.88.129:51820
+
+# Uncomment the following line (delete the # symbol) to connect to Proton VPN using IPv6.
+# Endpoint = [2a02:6ea0:d802:5519::10]:51820
+PersistentKeepalive = 25
+
+[Interface]
+# Bouncing = 2
+# NAT-PMP (Port Forwarding) = off
+# VPN Accelerator = on
+PrivateKey = +BIpjFNWBwGaIpnax4zLIyNHMkY3q0OF1zcfHyM3ZkI=
+Address = 10.2.0.2/32, 2a07:b944::2:2/128
+DNS = 10.2.0.1, 2a07:b944::2:1
+
+[Peer]
+# US-FREE#116
+PublicKey = AaOgTOp3zrGebFWnD1k16SKV/cA+QZBFJJf5ItxbwAk=
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 95.173.217.223:51820
+
+# Uncomment the following line (delete the # symbol) to connect to Proton VPN using IPv6.
+# Endpoint = [2a02:6ea0:d213:7381::10]:51820
+PersistentKeepalive = 25
+
+[Interface]
+# Bouncing = 3
+# NAT-PMP (Port Forwarding) = off
+# VPN Accelerator = on
+PrivateKey = kIzW7vijFyPy6AGQZuCowCi9FW2O3mlSNlj6AZkljl4=
+Address = 10.2.0.2/32
+DNS = 10.2.0.1
+
+[Peer]
+# US-FREE#137
+PublicKey = 01HVawb6Snd1f9KKpwjwp5Kaj4RU8pOt2O/iWOkTCEc=
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 194.180.34.8:51820
+
+PersistentKeepalive = 25
+
+[Interface]
+# Bouncing = 2
+# NAT-PMP (Port Forwarding) = off
+# VPN Accelerator = on
+PrivateKey = yAsMkX6vq8MO5fnl+UHkthK8BAJmtLbwguF3yyuScXQ=
+Address = 10.2.0.2/32
+DNS = 10.2.0.1
+
+[Peer]
+# SG-FREE#29
+PublicKey = c5OQACYp2107OLVm6Up9TeqeU1Ra38E7nvmebhy9Gzs=
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 134.82.69.9:51820
+
+PersistentKeepalive = 25
+
+[Interface]
+# Bouncing = 0
+# NAT-PMP (Port Forwarding) = off
+# VPN Accelerator = on
+PrivateKey = gFMG2QbEMBqZAOW3ZK52V3AIABYjSo5BLdlqLNvS6Hk=
+Address = 10.2.0.2/32
+DNS = 10.2.0.1
+
+[Peer]
+# SG-FREE#25
+PublicKey = XxUR1FEfeSRJvjs64tMx+OWSENR8GqJ/919uTH6g+1I=
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 134.82.69.5:51820
+
+PersistentKeepalive = 25
+
+[Interface]
+# Bouncing = 0
+# NAT-PMP (Port Forwarding) = off
+# VPN Accelerator = on
+PrivateKey = YKgeknb7IVZQJwo6nf2s6FtndXpDhDZxzavbnqdQnX8=
+Address = 10.2.0.2/32, 2a07:b944::2:2/128
+DNS = 10.2.0.1, 2a07:b944::2:1
+
+[Peer]
+# US-FREE#145
+PublicKey = LfKBOgy8rvpN4zqX7sDVUWRFnYjPmXKHh8xtjGiGOUw=
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 172.240.229.3:51820
+
+# Uncomment the following line (delete the # symbol) to connect to Proton VPN using IPv6.
+# Endpoint = [2600:9c06::10]:51820
+PersistentKeepalive = 25
