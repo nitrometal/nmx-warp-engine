@@ -1,1 +1,58 @@
-
+[
+  {
+    "country": "us",
+    "endpoint": "162.159.192.1:500",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+    "priv": "EBQ8Vgb7KuNR1syRX1g/kHryQwN1g5ctucL1NBLTA34=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:8bb1:6b77:b62a:8814:fdb5"
+  },
+  {
+    "country": "us",
+    "endpoint": "162.159.193.1:2408",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+    "priv": "mI7DiPXg2Q70+bCwVoyaweFUsn6pjK14h05VUMfuhGY=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:86dc:173a:9dbd:cddd:b7d5"
+  },
+  {
+    "country": "us",
+    "endpoint": "162.159.192.2:500",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+    "priv": "uKS1xOnzJlRtkHbgdHvYxrFwAwgSkvwXn0t+6p1plXI=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:8511:697d:aac7:f620:7aca"
+  },
+  {
+    "country": "us",
+    "endpoint": "162.159.195.1:2408",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+    "priv": "mIEeOjK/cew9mxj5kPx9Y3qxHEUOcpgyTC5aQi+brlo=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:8c50:e672:ff40:c661:6d1"
+  },
+  {
+    "country": "nl",
+    "endpoint": "188.114.96.1:500",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+    "priv": "KA3i0ghHTRNfOftN69KKG6PLj/tMCcVSJArGg7MzbXo=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:859f:ccbb:e867:3e2e:8cd2"
+  },
+  {
+    "country": "nl",
+    "endpoint": "188.114.97.1:2408",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+    "priv": "EJiC6KRr7o912ciKRQBa85Jzk8c7Oa2jFEQYwOKB53M=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:8f1e:c488:697:9adb:75b7"
+  },
+  {
+    "country": "nl",
+    "endpoint": "188.114.98.1:500",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+    "priv": "yAOM2ikG8FIn1m6Z+uMVRlBe1XnfSFKUx/NWYlc7j3g=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:8591:e423:c9db:4fb1:95ce"
+  }
+]
