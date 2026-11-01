@@ -1,12 +1,11 @@
 name: NMX Universal Converter
 
 on:
+  push:
+    paths:
+      - 'raw_nmx_server'
+      - 'raw_nmx_server.txt'
   workflow_dispatch:
-    inputs:
-      raw_configs:
-        description: 'Paste raw Proton configs stack here'
-        required: false
-        type: string
 
 jobs:
   convert:
@@ -23,8 +22,6 @@ jobs:
           node-version: 20
 
       - name: Run Converter
-        env:
-          INPUT_TEXT: ${{ github.event.inputs.raw_configs }}
         run: |
           cat << 'EOF' > converter.js
           const fs = require('fs');
@@ -32,11 +29,18 @@ jobs:
           const TARGET_FILE = 'nmx.net.universal.json';
           const DEFAULT_PRIV = '4DNYAYc5s5vVefuTDziBjiZbU8SGc7TKHHxDvpCrIWc=';
 
-          let rawData = process.env.INPUT_TEXT || '';
-          if (!rawData.trim() && fs.existsSync('raw_import.txt')) {
-            rawData = fs.readFileSync('raw_import.txt', 'utf8');
+          let inputFile = null;
+          if (fs.existsSync('raw_nmx_server')) {
+            inputFile = 'raw_nmx_server';
+          } else if (fs.existsSync('raw_nmx_server.txt')) {
+            inputFile = 'raw_nmx_server.txt';
           }
 
+          if (!inputFile) {
+            process.exit(0);
+          }
+
+          const rawData = fs.readFileSync(inputFile, 'utf8');
           if (!rawData.trim()) {
             process.exit(0);
           }
@@ -51,38 +55,35 @@ jobs:
           }
 
           const parsedNodes = [];
-          const sections = rawData.split(/\[Peer\]/i);
+          const blocks = rawData.split(/\[Interface\]/i).filter(b => b.trim());
 
-          for (let i = 1; i < sections.length; i++) {
-            const block = sections[i];
-            const prevBlock = sections[i - 1];
-
-            const epMatch = block.match(/Endpoint\s*=\s*([^\s\r\n]+)/i);
+          for (const block of blocks) {
+            const privMatch = block.match(/PrivateKey\s*=\s*([^\s\r\n]+)/i);
             const pubMatch = block.match(/PublicKey\s*=\s*([^\s\r\n]+)/i);
+            const epMatch = block.match(/Endpoint\s*=\s*([0-9a-zA-Z\.\-]+:[0-9]+)/i);
 
             let priv = DEFAULT_PRIV;
-            const privMatch = prevBlock.match(/PrivateKey\s*=\s*([^\s\r\n]+)/i);
             if (privMatch && privMatch[1]) {
               priv = privMatch[1].trim();
             }
 
             let country = 'us';
-            const countryMatch = block.match(/#\s*([A-Za-z]{2})-/i) || prevBlock.match(/#\s*([A-Za-z]{2})-/i);
+            const countryMatch = block.match(/#\s*([A-Za-z]{2})-(?:FREE|[0-9]+)/i) || block.match(/#\s*([A-Za-z]{2})/i);
             if (countryMatch && countryMatch[1]) {
               country = countryMatch[1].toLowerCase().trim();
-            } else if (block.toLowerCase().includes('netherlands') || prevBlock.toLowerCase().includes('netherlands')) {
-              country = 'nl';
-            } else if (block.toLowerCase().includes('japan') || prevBlock.toLowerCase().includes('japan')) {
-              country = 'jp';
-            } else if (block.toLowerCase().includes('canada') || prevBlock.toLowerCase().includes('canada')) {
-              country = 'ca';
-            } else if (block.toLowerCase().includes('switzerland') || prevBlock.toLowerCase().includes('switzerland')) {
+            } else if (block.toLowerCase().includes('switzerland') || block.toLowerCase().includes('ch-')) {
               country = 'ch';
-            } else if (block.toLowerCase().includes('poland') || prevBlock.toLowerCase().includes('poland')) {
+            } else if (block.toLowerCase().includes('netherlands') || block.toLowerCase().includes('nl-')) {
+              country = 'nl';
+            } else if (block.toLowerCase().includes('japan') || block.toLowerCase().includes('jp-')) {
+              country = 'jp';
+            } else if (block.toLowerCase().includes('canada') || block.toLowerCase().includes('ca-')) {
+              country = 'ca';
+            } else if (block.toLowerCase().includes('poland') || block.toLowerCase().includes('pl-')) {
               country = 'pl';
-            } else if (block.toLowerCase().includes('romania') || prevBlock.toLowerCase().includes('romania')) {
+            } else if (block.toLowerCase().includes('romania') || block.toLowerCase().includes('ro-')) {
               country = 'ro';
-            } else if (block.toLowerCase().includes('singapore') || prevBlock.toLowerCase().includes('singapore')) {
+            } else if (block.toLowerCase().includes('singapore') || block.toLowerCase().includes('sg-')) {
               country = 'sg';
             }
 
@@ -118,16 +119,13 @@ jobs:
           }
 
           fs.writeFileSync(TARGET_FILE, JSON.stringify(uniqueNodes, null, 2), 'utf8');
-
-          if (fs.existsSync('raw_import.txt')) {
-            fs.unlinkSync('raw_import.txt');
-          }
+          fs.writeFileSync(inputFile, '', 'utf8');
           EOF
           node converter.js
 
       - name: Commit and push converted pool
         run: |
           git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add nmx.net.universal.json
-          git diff --staged --quiet || (git commit -m "Convert and add Proton nodes to Universal pool [skip ci]" && git push)
+          git config --local user.name "NMX Action Bot"
+          git add nmx.net.universal.json raw_nmx_server raw_nmx_server.txt 2>/dev/null || true
+          git diff --staged --quiet || (git commit -m "NMX Engine: Ingest and build Universal nodes [skip ci]" && git push)
