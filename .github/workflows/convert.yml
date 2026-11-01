@@ -1,0 +1,133 @@
+name: NMX Universal Converter
+
+on:
+  workflow_dispatch:
+    inputs:
+      raw_configs:
+        description: 'Paste raw Proton configs stack here'
+        required: false
+        type: string
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run Converter
+        env:
+          INPUT_TEXT: ${{ github.event.inputs.raw_configs }}
+        run: |
+          cat << 'EOF' > converter.js
+          const fs = require('fs');
+
+          const TARGET_FILE = 'nmx.net.universal.json';
+          const DEFAULT_PRIV = '4DNYAYc5s5vVefuTDziBjiZbU8SGc7TKHHxDvpCrIWc=';
+
+          let rawData = process.env.INPUT_TEXT || '';
+          if (!rawData.trim() && fs.existsSync('raw_import.txt')) {
+            rawData = fs.readFileSync('raw_import.txt', 'utf8');
+          }
+
+          if (!rawData.trim()) {
+            process.exit(0);
+          }
+
+          let existingNodes = [];
+          if (fs.existsSync(TARGET_FILE)) {
+            try {
+              existingNodes = JSON.parse(fs.readFileSync(TARGET_FILE, 'utf8'));
+            } catch (_) {
+              existingNodes = [];
+            }
+          }
+
+          const parsedNodes = [];
+          const sections = rawData.split(/\[Peer\]/i);
+
+          for (let i = 1; i < sections.length; i++) {
+            const block = sections[i];
+            const prevBlock = sections[i - 1];
+
+            const epMatch = block.match(/Endpoint\s*=\s*([^\s\r\n]+)/i);
+            const pubMatch = block.match(/PublicKey\s*=\s*([^\s\r\n]+)/i);
+
+            let priv = DEFAULT_PRIV;
+            const privMatch = prevBlock.match(/PrivateKey\s*=\s*([^\s\r\n]+)/i);
+            if (privMatch && privMatch[1]) {
+              priv = privMatch[1].trim();
+            }
+
+            let country = 'us';
+            const countryMatch = block.match(/#\s*([A-Za-z]{2})-/i) || prevBlock.match(/#\s*([A-Za-z]{2})-/i);
+            if (countryMatch && countryMatch[1]) {
+              country = countryMatch[1].toLowerCase().trim();
+            } else if (block.toLowerCase().includes('netherlands') || prevBlock.toLowerCase().includes('netherlands')) {
+              country = 'nl';
+            } else if (block.toLowerCase().includes('japan') || prevBlock.toLowerCase().includes('japan')) {
+              country = 'jp';
+            } else if (block.toLowerCase().includes('canada') || prevBlock.toLowerCase().includes('canada')) {
+              country = 'ca';
+            } else if (block.toLowerCase().includes('switzerland') || prevBlock.toLowerCase().includes('switzerland')) {
+              country = 'ch';
+            } else if (block.toLowerCase().includes('poland') || prevBlock.toLowerCase().includes('poland')) {
+              country = 'pl';
+            } else if (block.toLowerCase().includes('romania') || prevBlock.toLowerCase().includes('romania')) {
+              country = 'ro';
+            } else if (block.toLowerCase().includes('singapore') || prevBlock.toLowerCase().includes('singapore')) {
+              country = 'sg';
+            }
+
+            if (epMatch && pubMatch) {
+              const ep = epMatch[1].trim();
+              const pub = pubMatch[1].trim();
+              if (ep.includes(':') && pub.length > 20) {
+                parsedNodes.push({
+                  country: country,
+                  endpoint: ep,
+                  peer: pub,
+                  priv: priv
+                });
+              }
+            }
+          }
+
+          const combined = [...parsedNodes, ...existingNodes];
+          const seenEndpoints = new Set();
+          const uniqueNodes = [];
+
+          for (const node of combined) {
+            const ep = node.endpoint.trim();
+            if (!seenEndpoints.has(ep)) {
+              seenEndpoints.add(ep);
+              uniqueNodes.push({
+                country: node.country.toLowerCase().trim(),
+                endpoint: ep,
+                peer: node.peer.trim(),
+                priv: node.priv ? node.priv.trim() : DEFAULT_PRIV
+              });
+            }
+          }
+
+          fs.writeFileSync(TARGET_FILE, JSON.stringify(uniqueNodes, null, 2), 'utf8');
+
+          if (fs.existsSync('raw_import.txt')) {
+            fs.unlinkSync('raw_import.txt');
+          }
+          EOF
+          node converter.js
+
+      - name: Commit and push converted pool
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add nmx.net.universal.json
+          git diff --staged --quiet || (git commit -m "Convert and add Proton nodes to Universal pool [skip ci]" && git push)
