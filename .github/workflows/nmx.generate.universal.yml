@@ -1,4 +1,4 @@
-name: Generate AmneziaWG Multi-Country Keys
+name: NMX Generate Universal 
 
 on:
   workflow_dispatch:
