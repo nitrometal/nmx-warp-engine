@@ -14,35 +14,43 @@ def fetch_universal_wireguard_servers():
         target_countries = ['us', 'ca', 'nl', 'pl', 'ro', 'ch', 'sg']
         
         for item in raw_data:
-            country = item.get("country", "").lower()
+            country = str(item.get("country", "")).lower().strip()
             if country not in target_countries:
                 continue
                 
             endpoint = item.get("endpoint")
-            peer = item.get("public_key") or item.get("peer")
-            priv = item.get("private_key") or item.get("priv")
+            peer = item.get("public_key") or item.get("peer") or item.get("PublicKey")
+            priv = item.get("private_key") or item.get("priv") or item.get("PrivateKey")
             
             if not endpoint or not peer or not priv:
                 continue
                 
             server_obj = {
                 "country": country,
-                "endpoint": endpoint,
-                "peer": peer,
-                "priv": priv
+                "endpoint": str(endpoint).strip(),
+                "peer": str(peer).strip(),
+                "priv": str(priv).strip()
             }
             
             if server_obj not in servers_list:
                 servers_list.append(server_obj)
                 
-        return servers_list
+        return servers_list if servers_list else None
     except Exception:
         return None
 
 def main():
     servers = fetch_universal_wireguard_servers()
+    
     if not servers:
-        return
+        servers = [
+            {
+                "country": "us",
+                "endpoint": "149.102.242.94:51820",
+                "peer": "fjmcron5ORLeZigl+fJ00PJGgR/2brhc/HjC5fHSGg4=",
+                "priv": "OI3m2ltSE/bdxGRMvHgO8oN0rpwCR5Wx4nl2XJugTXg="
+            }
+        ]
 
     output_filename = "nmx.net.universal.json"
     with open(output_filename, "w", encoding="utf-8") as f:
