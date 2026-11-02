@@ -19,8 +19,8 @@ def fetch_universal_wireguard_servers():
                 continue
                 
             endpoint = item.get("endpoint")
-            peer = item.get("public_key")
-            priv = item.get("private_key")
+            peer = item.get("public_key") or item.get("peer")
+            priv = item.get("private_key") or item.get("priv")
             
             if not endpoint or not peer or not priv:
                 continue
