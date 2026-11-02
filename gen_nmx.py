@@ -2,9 +2,9 @@ import json
 import requests
 
 def fetch_universal_wireguard_servers():
-    url = "https://raw.githubusercontent.com/fanyante/shared-wireguard/main/configs.json"
+    url = "https://githubusercontent.com/anywlan/wireguard-finder/main/public_nodes.json"
     try:
-        response = requests.get(url, timeout=15)
+        response = requests.get(url, timeout=20)
         if response.status_code != 200:
             return None
             
