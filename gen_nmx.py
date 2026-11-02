@@ -14,13 +14,13 @@ def fetch_universal_wireguard_servers():
         target_countries = ['us', 'ca', 'nl', 'pl', 'ro', 'ch', 'sg']
         
         for item in raw_data:
-            country = str(item.get("country", "")).lower().strip()
+            country = str(item.get("country", item.get("Country", ""))).lower().strip()
             if country not in target_countries:
                 continue
                 
-            endpoint = item.get("endpoint")
-            peer = item.get("public_key") or item.get("peer") or item.get("PublicKey")
-            priv = item.get("private_key") or item.get("priv") or item.get("PrivateKey")
+            endpoint = item.get("endpoint") or item.get("Endpoint")
+            peer = item.get("public_key") or item.get("peer") or item.get("PublicKey") or item.get("public")
+            priv = item.get("private_key") or item.get("priv") or item.get("PrivateKey") or item.get("private")
             
             if not endpoint or not peer or not priv:
                 continue
@@ -35,7 +35,7 @@ def fetch_universal_wireguard_servers():
             if server_obj not in servers_list:
                 servers_list.append(server_obj)
                 
-        return servers_list if servers_list else None
+        return servers_list if len(servers_list) > 0 else None
     except Exception:
         return None
 
