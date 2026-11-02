@@ -138,9 +138,21 @@
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
   },
   {
+    "priv": "2PsKZntu8CnwUiv1MTTiUZDKAzFhITmkkTN/34s3Xlo=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:87cf:ebfc:25d:32b8:12c5",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
     "priv": "4AxnWCX/3U35KqM/p480ZHocaL5vf74y1lnmHl3L1Ww=",
     "v4": "172.16.0.2",
     "v6": "2606:4700:110:8878:cfb:ff7c:2ab5:e847",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
+    "priv": "4Bkb/T2KKpywdQfarX1nVUPJIbO9COzWVPFN6bkT51M=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:8a87:81d2:760e:ea28:86f6",
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
   },
   {
@@ -210,6 +222,12 @@
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
   },
   {
+    "priv": "6OZgxPMB6ZkUK91jRfR+ONUyXGhEVRKkjPdQM3KR914=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:8564:fbc6:5db9:b181:37d6",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
     "priv": "8JVS3fgvFeYdz7O/4Fblc9yrucBXnpdsVkZ8v2qJw0E=",
     "v4": "172.16.0.2",
     "v6": "2606:4700:110:8d97:a837:385a:b68e:fe29",
@@ -225,6 +243,12 @@
     "priv": "8OX71OBnq8GxvyG5st/CCD6vNMmYwpQZUMrfhGM4Ums=",
     "v4": "172.16.0.2",
     "v6": "2606:4700:110:895b:8d19:58c2:fe47:841f",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
+    "priv": "8Osa+kWvaVKXGaZozpZKFzQyRbw2Ru1egLBerbxmv2s=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:8af2:12d8:8e24:58a8:e4c7",
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
   },
   {
@@ -585,6 +609,12 @@
     "priv": "OClPN4Qs8EzIGXaqY5zLnZyc4xOI0qDXXA+qmRHZxlg=",
     "v4": "172.16.0.2",
     "v6": "2606:4700:110:8128:c13e:4a54:e88d:b95a",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
+    "priv": "OIAVi/b0JEDpMlW046N/ILJq+sZkshu7sBViZItRL1E=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:8f99:ed3c:c79:9e97:98d4",
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
   },
   {
@@ -1065,6 +1095,12 @@
     "priv": "mPCEnTcvRDIKdMlOHx3gvtIjUGSfU4Tdi0w2Bn2A9E0=",
     "v4": "172.16.0.2",
     "v6": "2606:4700:110:8e56:4afa:4ed0:f829:253f",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
+  },
+  {
+    "priv": "mPpZO974fnPUCORmDUKFW0exrPh7AUbLI8iTcluqzU4=",
+    "v4": "172.16.0.2",
+    "v6": "2606:4700:110:8879:e7ca:e564:f3ad:2901",
     "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
   },
   {
