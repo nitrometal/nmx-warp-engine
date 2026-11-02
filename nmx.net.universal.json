@@ -1,8 +1,50 @@
 [
   {
     "country": "us",
-    "endpoint": "149.102.242.94:51820",
-    "peer": "fjmcron5ORLeZigl+fJ00PJGgR/2brhc/HjC5fHSGg4=",
-    "priv": "OI3m2ltSE/bdxGRMvHgO8oN0rpwCR5Wx4nl2XJugTXg="
+    "endpoint": "162.159.192.5:51820",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+    "priv": "MHul3YYXSm8ysBzs2oSftaLMsLUWUCqCLZgGzsMT7U0="
+  },
+  {
+    "country": "nl",
+    "endpoint": "162.159.193.10:51820",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+    "priv": "YGzspGBMeSeMa7/TZzM2QdgEJrDOC50Nc1SLdugiuVo="
+  },
+  {
+    "country": "ca",
+    "endpoint": "162.159.193.5:51820",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+    "priv": "iEZIdcHR7aV4mu1VjxcTsC272/li9WbafB531QFABXg="
+  },
+  {
+    "country": "ch",
+    "endpoint": "188.114.97.2:51820",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+    "priv": "gEiIbACqzbimtg+YQ5ZonPLKE0TN5Op0juzvAutdiXc="
+  },
+  {
+    "country": "pl",
+    "endpoint": "188.114.96.4:51820",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+    "priv": "ePnBCZ6CsbpMjDmqrfg9WgSgUAlWfEBAs7F/XO/ylVA="
+  },
+  {
+    "country": "ro",
+    "endpoint": "188.114.99.3:51820",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+    "priv": "iJ9+GFkU2smQe1rE62vWAZmHvQtSrLNAECwxzN4ouXw="
+  },
+  {
+    "country": "jp",
+    "endpoint": "162.159.195.15:51820",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+    "priv": "AEzVZVLjDBQpPed99GjOAThxDXZ7k2hU8AgPWkJiNEc="
+  },
+  {
+    "country": "sg",
+    "endpoint": "162.159.195.2:51820",
+    "peer": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+    "priv": "2Ok2sld1jHLbTI9sEM2Sn9gpd3ZQp7iAVzSSDLaf0Vg="
   }
 ]
