@@ -1,0 +1,187 @@
+const fs = require('fs');
+
+const TARGET_FILE = 'nmx.net.universal.json';
+const DEFAULT_PRIV = '4DNYAYc5s5vVefuTDziBjiZbU8SGc7TKHHxDvpCrIWc=';
+
+const allFiles = fs.readdirSync('.');
+
+const inputFiles = allFiles.filter(f => {
+  const lower = f.toLowerCase();
+  return lower.startsWith('raw') ||
+         lower.includes('server') ||
+         lower.includes('srever');
+});
+
+if (inputFiles.length === 0) {
+  process.exit(0);
+}
+
+let rawDataCombined = '';
+for (const f of inputFiles) {
+  try {
+    const content = fs.readFileSync(f, 'utf8');
+    if (content.trim()) {
+      rawDataCombined += '\n' + content;
+    }
+  } catch (_) {}
+}
+
+if (!rawDataCombined.trim()) {
+  process.exit(0);
+}
+
+let existingNodes = [];
+if (fs.existsSync(TARGET_FILE)) {
+  try {
+    const currentContent = fs.readFileSync(TARGET_FILE, 'utf8').trim();
+    if (currentContent) {
+      const parsed = JSON.parse(currentContent);
+      if (Array.isArray(parsed)) {
+        existingNodes = parsed;
+      }
+    }
+  } catch (_) {
+    existingNodes = [];
+  }
+}
+
+let normalizedText = rawDataCombined.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+normalizedText = normalizedText.replace(/([^\n])\s*(\[(?:Interface|Peer)\])/gi, '$1\n\n$2');
+normalizedText = normalizedText.replace(/([^\n])\s*(#\s*Server:)/gi, '$1\n$2');
+normalizedText = normalizedText.replace(/([^\n])\s*(PrivateKey\s*=)/gi, '$1\n$2');
+normalizedText = normalizedText.replace(/([^\n])\s*(PublicKey\s*=)/gi, '$1\n$2');
+normalizedText = normalizedText.replace(/([^\n])\s*(Endpoint\s*=)/gi, '$1\n$2');
+normalizedText = normalizedText.replace(/([^\n])\s*(AllowedIPs\s*=)/gi, '$1\n$2');
+normalizedText = normalizedText.replace(/([^\n])\s*(\{xxxxxxxx|\$xxxxxxxx|xxxxxxxx\})/gi, '$1\n\n$2');
+normalizedText = normalizedText.replace(/([^\n])\s*(nmx\.[a-zA-Z_]+\s*:)/gi, '$1\n$2');
+
+function detectCountry(text) {
+  const serverMatch = text.match(/Server:\s*([A-Za-z]{2})/i) ||
+                      text.match(/#\s*([A-Za-z]{2})-(?:FREE|[0-9]+)/i) ||
+                      text.match(/#\s*([A-Za-z]{2})\s*$/m) ||
+                      text.match(/#\s*([A-Za-z]{2})[\s\-#_0-9]/i);
+
+  if (serverMatch) {
+    return serverMatch[1].toLowerCase().trim();
+  }
+
+  const lower = text.toLowerCase();
+  if (lower.includes('japan') || lower.includes('jp-') || lower.includes('.jp:')) return 'jp';
+  if (lower.includes('mexico') || lower.includes('mx-') || lower.includes('.mx:')) return 'mx';
+  if (lower.includes('norway') || lower.includes('no-') || lower.includes('.no:')) return 'no';
+  if (lower.includes('netherlands') || lower.includes('nl-') || lower.includes('.nl:')) return 'nl';
+  if (lower.includes('switzerland') || lower.includes('ch-') || lower.includes('.ch:')) return 'ch';
+  if (lower.includes('poland') || lower.includes('pl-') || lower.includes('.pl:')) return 'pl';
+  if (lower.includes('romania') || lower.includes('ro-') || lower.includes('.ro:')) return 'ro';
+  if (lower.includes('singapore') || lower.includes('sg-') || lower.includes('.sg:')) return 'sg';
+  if (lower.includes('canada') || lower.includes('ca-') || lower.includes('.ca:')) return 'ca';
+  if (lower.includes('united states') || lower.includes('usa') || lower.includes('us-') || lower.includes('.us:')) return 'us';
+  if (lower.includes('germany') || lower.includes('de-') || lower.includes('.de:')) return 'de';
+  if (lower.includes('france') || lower.includes('fr-') || lower.includes('.fr:')) return 'fr';
+  if (lower.includes('united kingdom') || lower.includes('gb-') || lower.includes('uk-') || lower.includes('.uk:')) return 'gb';
+
+  return 'us';
+}
+
+function createCompositeKey(endpoint, peer, priv) {
+  const cleanEp = (endpoint || '').trim().toLowerCase();
+  const cleanPeer = (peer || '').trim().replace(/[^a-zA-Z0-9+/=]/g, '');
+  const cleanPriv = (priv || DEFAULT_PRIV).trim().replace(/[^a-zA-Z0-9+/=]/g, '');
+  return `${cleanEp}|${cleanPeer}|${cleanPriv}`;
+}
+
+const parsedNodes = [];
+const chunks = normalizedText.split(/(?=\[Interface\]|\{xxxxxxxx)/i);
+
+for (const chunk of chunks) {
+  if (!chunk.trim()) continue;
+
+  const privMatch = chunk.match(/PrivateKey\s*=\s*([^\s\r\n]+)/i) ||
+                    chunk.match(/nmx\.private_key\s*:\s*["']?([^\s"'\r\n]+)["']?/i);
+  const priv = privMatch ? privMatch[1].trim().replace(/[^a-zA-Z0-9+/=]/g, '') : DEFAULT_PRIV;
+
+  const peerBlocks = chunk.split(/(?=\[Peer\]|\$xxxxxxxx)/i);
+  for (const pBlock of peerBlocks) {
+    const epMatch = pBlock.match(/Endpoint\s*=\s*["']?([^\s"'\r\n]+)["']?/i) ||
+                    pBlock.match(/nmx\.endpoint\s*:\s*["']?([^\s"'\r\n]+)["']?/i);
+    const pubMatch = pBlock.match(/PublicKey\s*=\s*["']?([^\s"'\r\n]+)["']?/i) ||
+                     pBlock.match(/nmx\.peer_public_key\s*:\s*["']?([^\s"'\r\n]+)["']?/i);
+
+    if (epMatch && pubMatch) {
+      const ep = epMatch[1].trim().replace(/["']/g, '');
+      const pub = pubMatch[1].trim().replace(/["']/g, '').replace(/[^a-zA-Z0-9+/=]/g, '');
+
+      if (ep.includes(':') && pub.length >= 30) {
+        const country = detectCountry(pBlock + '\n' + chunk);
+        parsedNodes.push({
+          country: country,
+          endpoint: ep,
+          peer: pub,
+          priv: priv.length >= 30 ? priv : DEFAULT_PRIV
+        });
+      }
+    }
+  }
+}
+
+if (parsedNodes.length === 0) {
+  const rawPeerMatches = normalizedText.split(/(?=\[Peer\])/i);
+  for (const pBlock of rawPeerMatches) {
+    const epMatch = pBlock.match(/Endpoint\s*=\s*["']?([^\s"'\r\n]+)["']?/i);
+    const pubMatch = pBlock.match(/PublicKey\s*=\s*["']?([^\s"'\r\n]+)["']?/i);
+    if (epMatch && pubMatch) {
+      const ep = epMatch[1].trim().replace(/["']/g, '');
+      const pub = pubMatch[1].trim().replace(/["']/g, '').replace(/[^a-zA-Z0-9+/=]/g, '');
+      if (ep.includes(':') && pub.length >= 30) {
+        parsedNodes.push({
+          country: detectCountry(pBlock),
+          endpoint: ep,
+          peer: pub,
+          priv: DEFAULT_PRIV
+        });
+      }
+    }
+  }
+}
+
+if (parsedNodes.length === 0) {
+  console.log('No valid configurations were parsed.');
+  process.exit(0);
+}
+
+const nodeMap = new Map();
+
+for (const node of existingNodes) {
+  if (node && node.endpoint && node.peer) {
+    const key = createCompositeKey(node.endpoint, node.peer, node.priv);
+    nodeMap.set(key, {
+      country: (node.country || 'us').toLowerCase().trim(),
+      endpoint: node.endpoint.trim(),
+      peer: (node.peer || '').trim().replace(/[^a-zA-Z0-9+/=]/g, ''),
+      priv: (node.priv || DEFAULT_PRIV).trim().replace(/[^a-zA-Z0-9+/=]/g, '')
+    });
+  }
+}
+
+for (const node of parsedNodes) {
+  const key = createCompositeKey(node.endpoint, node.peer, node.priv);
+  nodeMap.set(key, {
+    country: node.country.toLowerCase().trim(),
+    endpoint: node.endpoint.trim(),
+    peer: node.peer.trim().replace(/[^a-zA-Z0-9+/=]/g, ''),
+    priv: node.priv.trim().replace(/[^a-zA-Z0-9+/=]/g, '')
+  });
+}
+
+const finalNodes = Array.from(nodeMap.values());
+
+fs.writeFileSync(TARGET_FILE, JSON.stringify(finalNodes, null, 2), 'utf8');
+
+for (const f of inputFiles) {
+  try {
+    fs.writeFileSync(f, '', 'utf8');
+    fs.truncateSync(f, 0);
+  } catch (_) {}
+}
+console.log(`Success: Processed ${parsedNodes.length} nodes. Total in database: ${finalNodes.length}`);
