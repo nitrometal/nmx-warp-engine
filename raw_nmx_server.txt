@@ -1,0 +1,15 @@
+[Interface]
+# Bouncing = 1
+# NAT-PMP (Переадресация портов) = off
+# VPN Accelerator = on
+PrivateKey = YLi0oV6Sf+Y4XGMQpeuLLtYr2lsaEgdIvRMINtQdMEY=
+Address = 10.2.0.2/32
+DNS = 10.2.0.1
+
+[Peer]
+# CH-FREE#11
+PublicKey = L6Vcy4PWQOyzFsjOI0GNCDypvzZfTuuZ14qmR1sT5QE=
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 135.136.39.34:51820
+
+PersistentKeepalive = 25
