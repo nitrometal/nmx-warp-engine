@@ -112,6 +112,13 @@ jobs:
             return 'us';
           }
 
+          function createCompositeKey(endpoint, peer, priv) {
+            const cleanEp = (endpoint || '').trim().toLowerCase();
+            const cleanPeer = (peer || '').trim().replace(/[^a-zA-Z0-9+/=]/g, '');
+            const cleanPriv = (priv || DEFAULT_PRIV).trim().replace(/[^a-zA-Z0-9+/=]/g, '');
+            return `${cleanEp}|${cleanPeer}|${cleanPriv}`;
+          }
+
           const parsedNodes = [];
           const chunks = normalizedText.split(/(?=\[Interface\]|\{xxxxxxxx)/i);
 
@@ -171,12 +178,12 @@ jobs:
             process.exit(0);
           }
 
-          const endpointMap = new Map();
+          const nodeMap = new Map();
 
           for (const node of existingNodes) {
-            if (node && node.endpoint) {
-              const key = node.endpoint.trim().toLowerCase();
-              endpointMap.set(key, {
+            if (node && node.endpoint && node.peer) {
+              const key = createCompositeKey(node.endpoint, node.peer, node.priv);
+              nodeMap.set(key, {
                 country: (node.country || 'us').toLowerCase().trim(),
                 endpoint: node.endpoint.trim(),
                 peer: (node.peer || '').trim().replace(/[^a-zA-Z0-9+/=]/g, ''),
@@ -186,8 +193,8 @@ jobs:
           }
 
           for (const node of parsedNodes) {
-            const key = node.endpoint.trim().toLowerCase();
-            endpointMap.set(key, {
+            const key = createCompositeKey(node.endpoint, node.peer, node.priv);
+            nodeMap.set(key, {
               country: node.country.toLowerCase().trim(),
               endpoint: node.endpoint.trim(),
               peer: node.peer.trim().replace(/[^a-zA-Z0-9+/=]/g, ''),
@@ -195,7 +202,7 @@ jobs:
             });
           }
 
-          const finalNodes = Array.from(endpointMap.values());
+          const finalNodes = Array.from(nodeMap.values());
 
           fs.writeFileSync(TARGET_FILE, JSON.stringify(finalNodes, null, 2), 'utf8');
 
@@ -204,7 +211,7 @@ jobs:
               fs.writeFileSync(f, '', 'utf8');
             } catch (_) {}
           }
-          console.log(`Success: Added ${parsedNodes.length} nodes. Total in database: ${finalNodes.length}`);
+          console.log(`Success: Processed ${parsedNodes.length} nodes. Total in database: ${finalNodes.length}`);
           EOF
           node converter.js
 
@@ -212,6 +219,6 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "NMX Action Bot"
-          git add nmx.net.universal.json raw_nmx_server raw_nmx_server.txt raw_nmx_server.conf 2>/dev/null || true
-          git add -u
+          git add nmx.net.universal.json
+          git add raw_nmx_server raw_nmx_server.txt raw_nmx_server.conf 2>/dev/null || true
           git diff --staged --quiet || (git commit -m "NMX Engine: Ingest and append Universal nodes [skip ci]" && git push)
