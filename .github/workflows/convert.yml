@@ -3,9 +3,9 @@ name: NMX Universal Converter
 on:
   push:
     paths:
-      - 'raw_nmx_server'
-      - 'raw_nmx_server.txt'
-      - 'raw_nmx_server.conf'
+      - 'raw*'
+      - '*server*'
+      - '*srever*'
   workflow_dispatch:
 
 jobs:
@@ -34,10 +34,9 @@ jobs:
 
           const inputFiles = allFiles.filter(f => {
             const lower = f.toLowerCase();
-            return lower === 'raw_nmx_server' ||
-                   lower === 'raw_nmx_server.txt' ||
-                   lower === 'raw_nmx_server.conf' ||
-                   (lower.includes('raw') && lower.includes('server'));
+            return lower.startsWith('raw') ||
+                   lower.includes('server') ||
+                   lower.includes('srever');
           });
 
           if (inputFiles.length === 0) {
@@ -174,7 +173,7 @@ jobs:
           }
 
           if (parsedNodes.length === 0) {
-            console.log('No valid configurations were parsed. Input file left untouched.');
+            console.log('No valid configurations were parsed.');
             process.exit(0);
           }
 
@@ -209,16 +208,22 @@ jobs:
           for (const f of inputFiles) {
             try {
               fs.writeFileSync(f, '', 'utf8');
+              fs.truncateSync(f, 0);
             } catch (_) {}
           }
           console.log(`Success: Processed ${parsedNodes.length} nodes. Total in database: ${finalNodes.length}`);
           EOF
           node converter.js
 
+          for f in raw* *server* *srever*; do
+            if [ -f "$f" ]; then
+              > "$f"
+            fi
+          done
+
       - name: Commit and push converted pool
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "NMX Action Bot"
-          git add nmx.net.universal.json
-          git add raw_nmx_server raw_nmx_server.txt raw_nmx_server.conf 2>/dev/null || true
-          git diff --staged --quiet || (git commit -m "NMX Engine: Ingest and append Universal nodes [skip ci]" && git push)
+          git add -A
+          git diff --staged --quiet || (git commit -m "NMX Engine: Ingest, append and clear raw inputs [skip ci]" && git push)
