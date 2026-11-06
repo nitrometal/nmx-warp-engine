@@ -1,12 +1,6 @@
 [
    {
     "country": "ch",
-    "endpoint": "138.199.6.181:51820",
-    "peer": "kLP1kA+BuzvA6ecozP0c82I8u1aXkZmfMCxBZEqpNHY=",
-    "priv": "OGFSToH+FQ1Y0/V/Mhi0uB6FmyylUAnEsctYCQ7IMEw="
-  },
-   {
-    "country": "ch",
     "endpoint": "149.88.27.233:51820",
     "peer": "MDJPYLKrGYv11Mis97Ihk/aPULhC5us44hx3Fa1/8lk=",
     "priv": "OGFSToH+FQ1Y0/V/Mhi0uB6FmyylUAnEsctYCQ7IMEw="
