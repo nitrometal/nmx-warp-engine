@@ -61,13 +61,28 @@ jobs:
           let existingNodes = [];
           if (fs.existsSync(TARGET_FILE)) {
             try {
-              const currentContent = fs.readFileSync(TARGET_FILE, 'utf8');
-              existingNodes = JSON.parse(currentContent);
-              if (!Array.isArray(existingNodes)) existingNodes = [];
+              const currentContent = fs.readFileSync(TARGET_FILE, 'utf8').trim();
+              if (currentContent) {
+                const parsed = JSON.parse(currentContent);
+                if (Array.isArray(parsed)) {
+                  existingNodes = parsed;
+                }
+              }
             } catch (_) {
               existingNodes = [];
             }
           }
+
+          let normalizedText = rawDataCombined.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+          normalizedText = normalizedText.replace(/([^\n])\s*(\[(?:Interface|Peer)\])/gi, '$1\n\n$2');
+          normalizedText = normalizedText.replace(/([^\n])\s*(#\s*Server:)/gi, '$1\n$2');
+          normalizedText = normalizedText.replace(/([^\n])\s*(PrivateKey\s*=)/gi, '$1\n$2');
+          normalizedText = normalizedText.replace(/([^\n])\s*(PublicKey\s*=)/gi, '$1\n$2');
+          normalizedText = normalizedText.replace(/([^\n])\s*(Endpoint\s*=)/gi, '$1\n$2');
+          normalizedText = normalizedText.replace(/([^\n])\s*(AllowedIPs\s*=)/gi, '$1\n$2');
+          normalizedText = normalizedText.replace(/([^\n])\s*(\{xxxxxxxx|\$xxxxxxxx|xxxxxxxx\})/gi, '$1\n\n$2');
+          normalizedText = normalizedText.replace(/([^\n])\s*(nmx\.[a-zA-Z_]+\s*:)/gi, '$1\n$2');
 
           function detectCountry(text) {
             const serverMatch = text.match(/Server:\s*([A-Za-z]{2})/i) ||
@@ -98,32 +113,62 @@ jobs:
           }
 
           const parsedNodes = [];
-          const chunks = rawDataCombined.split(/(?=\[Interface\])/i);
+          const chunks = normalizedText.split(/(?=\[Interface\]|\{xxxxxxxx)/i);
 
           for (const chunk of chunks) {
             if (!chunk.trim()) continue;
 
-            const privMatch = chunk.match(/PrivateKey\s*=\s*([a-zA-Z0-9+/=]+)/i);
-            const priv = privMatch ? privMatch[1].trim() : DEFAULT_PRIV;
+            const privMatch = chunk.match(/PrivateKey\s*=\s*([^\s\r\n]+)/i) ||
+                              chunk.match(/nmx\.private_key\s*:\s*["']?([^\s"'\r\n]+)["']?/i);
+            const priv = privMatch ? privMatch[1].trim().replace(/[^a-zA-Z0-9+/=]/g, '') : DEFAULT_PRIV;
 
-            const peerBlocks = chunk.split(/(?=\[Peer\])/i);
+            const peerBlocks = chunk.split(/(?=\[Peer\]|\$xxxxxxxx)/i);
             for (const pBlock of peerBlocks) {
-              const epMatch = pBlock.match(/Endpoint\s*=\s*([0-9a-zA-Z\.\-]+:[0-9]+)/i);
-              const pubMatch = pBlock.match(/PublicKey\s*=\s*([a-zA-Z0-9+/=]+)/i);
+              const epMatch = pBlock.match(/Endpoint\s*=\s*["']?([^\s"'\r\n]+)["']?/i) ||
+                              pBlock.match(/nmx\.endpoint\s*:\s*["']?([^\s"'\r\n]+)["']?/i);
+              const pubMatch = pBlock.match(/PublicKey\s*=\s*["']?([^\s"'\r\n]+)["']?/i) ||
+                               pBlock.match(/nmx\.peer_public_key\s*:\s*["']?([^\s"'\r\n]+)["']?/i);
 
               if (epMatch && pubMatch) {
-                const ep = epMatch[1].trim();
-                const pub = pubMatch[1].trim();
-                const country = detectCountry(pBlock + '\n' + chunk);
+                const ep = epMatch[1].trim().replace(/["']/g, '');
+                const pub = pubMatch[1].trim().replace(/["']/g, '').replace(/[^a-zA-Z0-9+/=]/g, '');
 
-                parsedNodes.push({
-                  country: country,
-                  endpoint: ep,
-                  peer: pub,
-                  priv: priv
-                });
+                if (ep.includes(':') && pub.length >= 30) {
+                  const country = detectCountry(pBlock + '\n' + chunk);
+                  parsedNodes.push({
+                    country: country,
+                    endpoint: ep,
+                    peer: pub,
+                    priv: priv.length >= 30 ? priv : DEFAULT_PRIV
+                  });
+                }
               }
             }
+          }
+
+          if (parsedNodes.length === 0) {
+            const rawPeerMatches = normalizedText.split(/(?=\[Peer\])/i);
+            for (const pBlock of rawPeerMatches) {
+              const epMatch = pBlock.match(/Endpoint\s*=\s*["']?([^\s"'\r\n]+)["']?/i);
+              const pubMatch = pBlock.match(/PublicKey\s*=\s*["']?([^\s"'\r\n]+)["']?/i);
+              if (epMatch && pubMatch) {
+                const ep = epMatch[1].trim().replace(/["']/g, '');
+                const pub = pubMatch[1].trim().replace(/["']/g, '').replace(/[^a-zA-Z0-9+/=]/g, '');
+                if (ep.includes(':') && pub.length >= 30) {
+                  parsedNodes.push({
+                    country: detectCountry(pBlock),
+                    endpoint: ep,
+                    peer: pub,
+                    priv: DEFAULT_PRIV
+                  });
+                }
+              }
+            }
+          }
+
+          if (parsedNodes.length === 0) {
+            console.log('No valid configurations were parsed. Input file left untouched.');
+            process.exit(0);
           }
 
           const endpointMap = new Map();
@@ -132,10 +177,10 @@ jobs:
             if (node && node.endpoint) {
               const key = node.endpoint.trim().toLowerCase();
               endpointMap.set(key, {
-                country: node.country ? node.country.toLowerCase().trim() : 'us',
+                country: (node.country || 'us').toLowerCase().trim(),
                 endpoint: node.endpoint.trim(),
-                peer: node.peer ? node.peer.trim() : '',
-                priv: node.priv ? node.priv.trim() : DEFAULT_PRIV
+                peer: (node.peer || '').trim().replace(/[^a-zA-Z0-9+/=]/g, ''),
+                priv: (node.priv || DEFAULT_PRIV).trim().replace(/[^a-zA-Z0-9+/=]/g, '')
               });
             }
           }
@@ -145,8 +190,8 @@ jobs:
             endpointMap.set(key, {
               country: node.country.toLowerCase().trim(),
               endpoint: node.endpoint.trim(),
-              peer: node.peer.trim(),
-              priv: node.priv ? node.priv.trim() : DEFAULT_PRIV
+              peer: node.peer.trim().replace(/[^a-zA-Z0-9+/=]/g, ''),
+              priv: node.priv.trim().replace(/[^a-zA-Z0-9+/=]/g, '')
             });
           }
 
@@ -159,6 +204,7 @@ jobs:
               fs.writeFileSync(f, '', 'utf8');
             } catch (_) {}
           }
+          console.log(`Success: Added ${parsedNodes.length} nodes. Total in database: ${finalNodes.length}`);
           EOF
           node converter.js
 
@@ -168,4 +214,4 @@ jobs:
           git config --local user.name "NMX Action Bot"
           git add nmx.net.universal.json raw_nmx_server raw_nmx_server.txt raw_nmx_server.conf 2>/dev/null || true
           git add -u
-          git diff --staged --quiet || (git commit -m "NMX Engine: Ingest and build Universal nodes [skip ci]" && git push)
+          git diff --staged --quiet || (git commit -m "NMX Engine: Ingest and append Universal nodes [skip ci]" && git push)
