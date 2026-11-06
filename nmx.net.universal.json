@@ -1,11 +1,5 @@
 [
   {
-    "country": "ch",
-    "endpoint": "138.199.6.177:51820",
-    "peer": "9nrcUUgwvjNU5Z+EBB0C2cbrhQ3dsCz+zSU83/eqGFY=",
-    "priv": "oMxOt7Ec/MYvoYgpCinzD3pnQYPR+jxBxruh2IuphFQ="
-  },
-  {
     "country": "us",
     "endpoint": "89.187.185.161:51820",
     "peer": "ZEQHDxg/HbjznRvApyBWfUGs6T20Rvy0/DctZk6FvB4=",
