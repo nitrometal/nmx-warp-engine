@@ -1,5 +1,35 @@
 [
   {
+    "country": "us",
+    "endpoint": "84.20.27.44:51820",
+    "peer": "rf3F9avKpfKKe+m6RA6y3PJyF4IU9KKkv8tYGcAziDE=",
+    "priv": "qLHzTqyI4RSfMZ/HXUwHJfYkQQawErqQd4GzMLsxKFw="
+  },
+  {
+    "country": "us",
+    "endpoint": "84.20.27.46:51820",
+    "peer": "0WUvkg7/WEHLS2XzmJctvE/cvbDA0vNFJkoqbHKqezw=",
+    "priv": "qLHzTqyI4RSfMZ/HXUwHJfYkQQawErqQd4GzMLsxKFw="
+  },
+  {
+    "country": "us",
+    "endpoint": "84.20.27.47:51820",
+    "peer": "eOxxZFIwEjujPtVOmN8JcgpmtKikl7O5qM9Oe1hUqmc=",
+    "priv": "qLHzTqyI4RSfMZ/HXUwHJfYkQQawErqQd4GzMLsxKFw="
+  },
+  {
+    "country": "us",
+    "endpoint": "149.102.224.48:51820",
+    "peer": "nryeLqc24XdlxACia54g+OhO1Bw6P0J2F+Oj5qtW7gY=",
+    "priv": "qLHzTqyI4RSfMZ/HXUwHJfYkQQawErqQd4GzMLsxKFw="
+  },
+  {
+    "country": "us",
+    "endpoint": "103.14.26.127:51820",
+    "peer": "x5qWLikynaMDbB2UrQAqsLNjd7+jGvneBvbMQ6M0mSQ=",
+    "priv": "qLHzTqyI4RSfMZ/HXUwHJfYkQQawErqQd4GzMLsxKFw="
+  },
+  {
     "country": "jp",
     "endpoint": "149.88.103.163:51820",
     "peer": "VrNJ8jPdfeaq1pB0rH9DvB/50Y8EW2MGn0uHOey1mxE=",
@@ -61,12 +91,6 @@
   },
   {
     "country": "ch",
-    "endpoint": "149.88.27.233:51820",
-    "peer": "MDJPYLKrGYv11Mis97Ihk/aPULhC5us44hx3Fa1/8lk=",
-    "priv": "qLHzTqyI4RSfMZ/HXUwHJfYkQQawErqQd4GzMLsxKFw="
-  },
-  {
-    "country": "ch",
     "endpoint": "138.199.6.181:51820",
     "peer": "kLP1kA+BuzvA6ecozP0c82I8u1aXkZmfMCxBZEqpNHY=",
     "priv": "qLHzTqyI4RSfMZ/HXUwHJfYkQQawErqQd4GzMLsxKFw="
@@ -109,12 +133,6 @@
   },
   {
     "country": "ca",
-    "endpoint": "109.204.35.233:51820",
-    "peer": "K/118wSi/8w4zrcXJbfZiz9Boi+CYxXIKiNUz9kJDC8=",
-    "priv": "qLHzTqyI4RSfMZ/HXUwHJfYkQQawErqQd4GzMLsxKFw="
-  },
-  {
-    "country": "ca",
     "endpoint": "178.249.214.65:51820",
     "peer": "4+452KKZ/BpmTeJ0Ua5YulgtVJKrFlw0AKKo4PtlYxM=",
     "priv": "qLHzTqyI4RSfMZ/HXUwHJfYkQQawErqQd4GzMLsxKFw="
@@ -123,6 +141,18 @@
     "country": "ca",
     "endpoint": "149.22.81.1:51820",
     "peer": "/A3MV6y7f3NMD0vGPNVqHMkUX/cJQGqM+PrUmxId/Xw=",
+    "priv": "qLHzTqyI4RSfMZ/HXUwHJfYkQQawErqQd4GzMLsxKFw="
+  },
+  {
+    "country": "ch",
+    "endpoint": "149.88.27.233:51820",
+    "peer": "MDJPYLKrGYv11Mis97Ihk/aPULhC5us44hx3Fa1/8lk=",
+    "priv": "qLHzTqyI4RSfMZ/HXUwHJfYkQQawErqQd4GzMLsxKFw="
+  },
+  {
+    "country": "ca",
+    "endpoint": "109.204.35.233:51820",
+    "peer": "K/118wSi/8w4zrcXJbfZiz9Boi+CYxXIKiNUz9kJDC8=",
     "priv": "qLHzTqyI4RSfMZ/HXUwHJfYkQQawErqQd4GzMLsxKFw="
   },
   {
