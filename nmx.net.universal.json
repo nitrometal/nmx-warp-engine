@@ -5842,5 +5842,17 @@
     "endpoint": "149.102.242.98:51820",
     "peer": "03idG1N3+mPn+n2SRqYcdFdbeUYSirXzJVnIejIv30I=",
     "priv": "SCk3xCPVDJUHW2YDWCCagCI0crvGxT8v6PpCZB7QXHM="
+  },
+  {
+    "country": "ch",
+    "endpoint": "135.136.39.34:51820",
+    "peer": "L6Vcy4PWQOyzFsjOI0GNCDypvzZfTuuZ14qmR1sT5QE=",
+    "priv": "eI2ZwmXxNjOaisKcDMoPXJUOt0oBb5pX1JhhyHbTiko="
+  },
+  {
+    "country": "us",
+    "endpoint": "149.88.30.88:51820",
+    "peer": "Uqp1/VJ/Lz2VoN/2D0HEG7G8WDxLJm7+JNC5KZrUREw=",
+    "priv": "wMUK0OVzVy4gNV7c5yYhYLR7n44z8/KgLmSZQC8bLnI="
   }
 ]
